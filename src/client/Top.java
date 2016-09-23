@@ -26,7 +26,7 @@ public class Top extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		entered = new Sound("SE\\title_decision.ogg");
-		bgm = new Music("BGM\\Bombertoon.ogg");
+		bgm = new Music("res/client/sound/BGM/Bombertoon.ogg");
 		back = new Image("Scene\\title\\background.png");
 		button=new Image("Scene\\title\\button.png");
 		logo=new Image("Scene\\title\\logo2.png");

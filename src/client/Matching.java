@@ -27,7 +27,7 @@ private Music matchBGM;
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		// TODO 自動生成されたメソッド・スタブ
 		match = new Image("Scene\\matching\\matching.png");
-		matchBGM = new Music("BGM\\matchingBGM.ogg");
+		matchBGM = new Music("res/client/sound/BGM/matchingBGM.ogg");
 		matched = new Sound("SE\\matched.ogg");
 	}
 

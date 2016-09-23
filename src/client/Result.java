@@ -40,7 +40,7 @@ public class Result extends BasicGameState {
 		uf = new UnicodeFont("SHOWG.TTF", 90, false, false);
 		uf2 = new UnicodeFont("SHOWG.TTF", 60, false, false);
 		uf3 = new UnicodeFont("SHOWG.TTF", 32, false, false);
-		result = new Music("BGM\\result.ogg");
+		result = new Music("res/client/sound/BGM/result.ogg");
 	}
 
 	@Override

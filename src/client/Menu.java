@@ -140,7 +140,7 @@ public class Menu extends BasicGameState {
 		creb = new Image("Scene\\menu\\credit_0.png");
 		crew = new Image("Scene\\menu\\credit_1.png");
 		mbar = new Image("Scene\\menu\\menu_bar.png");
-		menu = new Music("BGM/Menu.ogg");
+		menu = new Music("res/client/sound/BGM/Menu.ogg");
 		select = new Sound("SE\\decide.ogg");
 		decision = new Sound("SE\\menu_decision.ogg");
 		menu.play();
