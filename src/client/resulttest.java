@@ -9,7 +9,7 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Common.Score;
+import common.Score;
 
 public class resulttest extends BasicGameState {
 

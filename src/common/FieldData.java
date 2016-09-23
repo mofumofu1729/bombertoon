@@ -1,4 +1,4 @@
-package Common;
+package common;
 
 public class FieldData {
 	public static final int[] fieldDate1 = {

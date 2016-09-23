@@ -11,8 +11,8 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Common.Score;
-import Common.Setting;
+import common.Score;
+import common.Setting;
 
 public class Result extends BasicGameState {
 	private int state;
