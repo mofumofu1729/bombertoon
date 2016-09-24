@@ -62,7 +62,7 @@ local.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar # ライブラリを入れるため
 *.war
 *.ear
 
