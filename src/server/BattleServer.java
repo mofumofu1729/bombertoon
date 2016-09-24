@@ -8,16 +8,17 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Common.Setting;
+import common.Setting;
 
 //内部処理はこいつの管轄
 public class BattleServer extends BasicGameState {
-	public static final int PLAYERNUMBER = Common.Setting.P;
-	public static final int TIMELIMIT = 60000;
+	public static final int PLAYERNUMBER = common.Setting.P;
+	// public static final int TIMELIMIT = 60000;
+	public static final int TIMELIMIT = 6000; // 制限時間
 	// フィールドサイズ
 	public static final int FIELDHEIGHT = 16;
 	public static final int FIELDWIDTH = 16;
-	Common.Score score = new Common.Score(4);
+	common.Score score = new common.Score(4);
 
 	private int state;
 	private boolean enterFinished = false; // 画面遷移が終わったか
@@ -70,8 +71,8 @@ public class BattleServer extends BasicGameState {
 			if (isSendReady == false) {
 				Random r = new Random();
 				int color = r.nextInt(4);
-				Setting.ColorTeam1=Common.ColorPair.getColorPair(color)[0];
-				Setting.ColorTeam2=Common.ColorPair.getColorPair(color)[1];
+				Setting.ColorTeam1=common.ColorPair.getColorPair(color)[0];
+				Setting.ColorTeam2=common.ColorPair.getColorPair(color)[1];
 				for (int i = 0; i < PLAYERNUMBER; i++) {
 					switch (i) { // TODO 色のランダム化
 					case 0:
@@ -117,17 +118,17 @@ public class BattleServer extends BasicGameState {
 							break;
 
 						case -1:
-							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, Common.Setting.ColorTeam1);// TODO
+							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);// TODO
 							// ちゃんと任意の色への無敵地点とする
 							break;
 						case -2:
-							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, Common.Setting.ColorTeam2);
+							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
 							break;
 						case -3:
-							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, Common.Setting.ColorTeam1);
+							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);
 							break;
 						case -4:
-							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, Common.Setting.ColorTeam2);
+							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
 
 							break;
 

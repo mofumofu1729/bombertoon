@@ -14,6 +14,5 @@ public class State {
 	public static final int ONEON1 = 8;
 	public static final int TWOON2 = 9;
 	public static final int CONFIG = 10;
-	public static final int  resulttest= 999;
 
 }

@@ -62,7 +62,7 @@ local.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar # slickライブラリjarを入れるため
 *.war
 *.ear
 

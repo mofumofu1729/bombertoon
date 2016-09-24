@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-import Common.Setting;
+import common.Setting;
 
 public class TransmissionClient {
 	private PrintWriter out;// 出力用のライター
@@ -20,7 +20,7 @@ public class TransmissionClient {
 	private boolean isFinish = false; // 終了
 	private int time; // 経過時間か何か
 	static String hostName="localhost";
-	private Common.Score score; // 成績
+	private common.Score score; // 成績
 	private int colorPair;
 
 	public TransmissionClient() {
@@ -118,7 +118,7 @@ public class TransmissionClient {
 
 	/*******************追記部分(6/21)**********************/
 	// 成績を受け取る scoreにまだ何も入ってなかったらnull返すよ！
-	public Common.Score recieveScore() {
+	public common.Score recieveScore() {
 		if (score == null) {
 			System.err.println("TransmissionClient: warning: score is null");
 		}
@@ -128,10 +128,10 @@ public class TransmissionClient {
 
 	// 内部的に使う
 	void createScore(int playerNum) {
-		score = new Common.Score(playerNum);
+		score = new common.Score(playerNum);
 	}
 
-	Common.Score getScore() {
+	common.Score getScore() {
 		if (this.score == null) {
 			System.err.println("tc: warning, score is null");
 		}
