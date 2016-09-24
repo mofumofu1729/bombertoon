@@ -33,7 +33,7 @@ public class resulttest extends BasicGameState {
 
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		// TODO 自動生成されたメソッド・スタブ
-		re = new Image("Scene\\results\\BackGround.png");
+		re = new Image("res/client/img/Scene/results/BackGround.png");
 		uf = new UnicodeFont("SHOWG.TTF", 100, false, false);
 		uf2 = new UnicodeFont("SHOWG.TTF", 60, false, false);
 		uf3 = new UnicodeFont("SHOWG.TTF", 32, false, false);
