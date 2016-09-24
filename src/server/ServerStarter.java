@@ -24,9 +24,12 @@ public class ServerStarter extends StateBasedGame {
 	}
 
 	public static void main(String[] args) throws SlickException, IOException {
+		// この行はちょっと怪しいので後で直す
+		/*
 		System.setProperty("org.lwjgl.librarypath",
 				new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName())
 						.getAbsolutePath());
+		*/
 
 		AppGameContainer app = new AppGameContainer(new ServerStarter("server"));
 		app.setDisplayMode(800, 600, false);

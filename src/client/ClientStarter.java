@@ -45,9 +45,10 @@ public class ClientStarter extends StateBasedGame {
 	}
 
 	public static void main(String[] args) throws SlickException, IOException {
-		System.setProperty("org.lwjgl.librarypath",
+		// TODO ちょっとこの行は怪しいので後で直す
+		/* System.setProperty("org.lwjgl.librarypath",
 				new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName())
-						.getAbsolutePath());
+						.getAbsolutePath()); */
 
 		AppGameContainer app = new AppGameContainer(new ClientStarter("client"));
 		app.setDisplayMode(800, 600, false);
