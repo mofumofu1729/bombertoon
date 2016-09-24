@@ -25,7 +25,7 @@ public class Config extends BasicGameState {
 	UnicodeFont uf;
 	boolean pushed=false;
 	private Sound decision;
-int timer;
+	int timer;
 	Config(int state) {
 		this.state = state;
 	}
@@ -36,7 +36,7 @@ int timer;
 		registerPushed=new Image("res/client/img/Scene/conf/register_2.png");
 		conPicture = new Image("res/client/img/Scene/conf/config.png");
 		register = new Image("res/client/img/Scene/conf/register_1.png");
-		uf = new UnicodeFont("SHOWG.TTF", 32, false, false);
+		uf = new UnicodeFont("res/client/font/SHOWG.TTF", 32, false, false);
 
 	}
 
