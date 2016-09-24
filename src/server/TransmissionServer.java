@@ -6,14 +6,14 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import Common.Score;
+import common.Score;
 
 public class TransmissionServer extends Thread {
 	private int member;// 接続しているメンバーの数
 
-	public static final int PORT = 10000;
+	public static final int PORT = 20000;
 	public static final int MAX_BOMB = 3;
-	public static final int MAX_PLAYER = Common.Setting.P;
+	public static final int MAX_PLAYER = common.Setting.P;
 
 	private Socket[] incoming;// 受付用のソケット
 	private InputStreamReader[] isr;// 入力ストリーム用の配列

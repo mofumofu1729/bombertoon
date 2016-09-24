@@ -24,7 +24,6 @@ public class ClientStarter extends StateBasedGame {
 		this.addState(new Credit(State.CREDIT));
 		this.addState(new Matching(State.MATCHING));
 		this.addState(new Rating(State.RATING));
-		this.addState(new resulttest(State.resulttest));
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException {
@@ -38,18 +37,18 @@ public class ClientStarter extends StateBasedGame {
 		this.getState(State.MATCHING).init(gc, this);
 		this.getState(State.RATING).init(gc, this);
 		this.getState(State.CONFIG).init(gc, this);
-		this.getState(State.resulttest).init(gc, this);
 
 		// this.enterState(State.GAMECLIENT);
 
 		this.enterState(State.TOP);
-	//	 this.enterState(State.resulttest);
+
 	}
 
 	public static void main(String[] args) throws SlickException, IOException {
-		System.setProperty("org.lwjgl.librarypath",
+		// TODO ちょっとこの行は怪しいので後で直す
+		/* System.setProperty("org.lwjgl.librarypath",
 				new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName())
-						.getAbsolutePath());
+						.getAbsolutePath()); */
 
 		AppGameContainer app = new AppGameContainer(new ClientStarter("client"));
 		app.setDisplayMode(800, 600, false);

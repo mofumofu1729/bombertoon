@@ -25,7 +25,7 @@ public class Config extends BasicGameState {
 	UnicodeFont uf;
 	boolean pushed=false;
 	private Sound decision;
-int timer;
+	int timer;
 	Config(int state) {
 		this.state = state;
 	}
@@ -33,10 +33,10 @@ int timer;
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		// TODO 自動生成されたメソッド・スタブ
-		registerPushed=new Image("Scene\\conf\\register_2.png");
-		conPicture = new Image("Scene\\conf\\config.png");
-		register = new Image("Scene\\conf\\register_1.png");
-		uf = new UnicodeFont("SHOWG.TTF", 32, false, false);
+		registerPushed=new Image("res/client/img/Scene/conf/register_2.png");
+		conPicture = new Image("res/client/img/Scene/conf/config.png");
+		register = new Image("res/client/img/Scene/conf/register_1.png");
+		uf = new UnicodeFont("res/client/font/SHOWG.TTF", 32, false, false);
 
 	}
 
@@ -89,7 +89,7 @@ int timer;
 
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-		decision = new Sound("SE\\menu_decision.ogg");
+		decision = new Sound("res/client/sound/SE/menu_decision.ogg");
 		hostNameBox = new TextField(container, uf, 189, 207, 470, 38);
 		hostNameBox.setBackgroundColor(Color.white);
 		hostNameBox.setBorderColor(Color.transparent);
