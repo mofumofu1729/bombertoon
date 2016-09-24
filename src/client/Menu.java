@@ -130,16 +130,16 @@ public class Menu extends BasicGameState {
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		background = new Image("Scene\\menu\\menu.png");
-		oneb = new Image("Scene\\menu\\1on1_0.png");
-		onew = new Image("Scene\\menu\\1on1_2.png");
-		twob = new Image("Scene\\menu\\2on2_1.png");
-		twow = new Image("Scene\\menu\\2on2_2.png");
-		conb = new Image("Scene\\menu\\config_0.png");
-		conw = new Image("Scene\\menu\\config_1.png");
-		creb = new Image("Scene\\menu\\credit_0.png");
-		crew = new Image("Scene\\menu\\credit_1.png");
-		mbar = new Image("Scene\\menu\\menu_bar.png");
+		background = new Image("res/client/img/Scene/menu/menu.png");
+		oneb = new Image("res/client/img/Scene/menu/1on1_0.png");
+		onew = new Image("res/client/img/Scene/menu/1on1_2.png");
+		twob = new Image("res/client/img/Scene/menu/2on2_1.png");
+		twow = new Image("res/client/img/Scene/menu/2on2_2.png");
+		conb = new Image("res/client/img/Scene/menu/config_0.png");
+		conw = new Image("res/client/img/Scene/menu/config_1.png");
+		creb = new Image("res/client/img/Scene/menu/credit_0.png");
+		crew = new Image("res/client/img/Scene/menu/credit_1.png");
+		mbar = new Image("res/client/img/Scene/menu/menu_bar.png");
 		menu = new Music("res/client/sound/BGM/Menu.ogg");
 		select = new Sound("res/client/sound/SE/decide.ogg");
 		decision = new Sound("res/client/sound/SE/menu_decision.ogg");

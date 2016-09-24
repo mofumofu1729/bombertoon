@@ -36,7 +36,7 @@ public class Result extends BasicGameState {
 
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		// TODO 自動生成されたメソッド・スタブ
-		re = new Image("Scene\\results\\BackGround.png");
+		re = new Image("res/client/img/Scene/results/BackGround.png");
 		uf = new UnicodeFont("SHOWG.TTF", 90, false, false);
 		uf2 = new UnicodeFont("SHOWG.TTF", 60, false, false);
 		uf3 = new UnicodeFont("SHOWG.TTF", 32, false, false);
@@ -112,30 +112,31 @@ public class Result extends BasicGameState {
 		tc = ClientStarter.getTransmissionClient();
 		score = ClientStarter.getTransmissionClient().getScore();
 		if (score.painted[0] > score.painted[1]) {
-			team1 = new Image("Scene\\results\\WIN.png");
-			team2 = new Image("Scene\\results\\LOSE.png");
+			team1 = new Image("res/client/img/Scene/results/WIN.png"); // TODO
+			team2 = new Image("res/client/img/Scene/results/LOSE.png");
 			// if (tc.recievedHuman().playerID == 0 ||
 			// tc.recievedHuman().playerID == 2) {
-			result = new Music("BGM\\resultBGM_win.ogg");
+			result = new Music("res/client/sound/BGM/resultBGM_win.ogg");
 			// } else {
-			// result = new Music("BGM\\resultBGM_lose.ogg");
+			// result = new Music("res/client/sound/BGM/resultBGM_lose.ogg");
 			// }
 
 		} else {
-			team1 = new Image("Scene\\results\\LOSE.png");
-			team2 = new Image("Scene\\results\\WIN.png");
+			team1 = new Image("res/client/img/Scene/results/LOSE.png");
+			team2 = new Image("res/client/img/Scene/results/WIN.png");
 			// if (tc.recievedHuman().playerID == 2 ||
 			// tc.recievedHuman().playerID == 4) {
-			// result = new Music("BGM\\resultBGM_win.ogg");
+			// result = new Music("res/client/sound/BGM/resultBGM_win.ogg");
 			// } else {
-			// result = new Music("BGM\\resultBGM_lose.ogg");
+			// result = new Music("res/client/sound/BGM/resultBGM_lose.ogg");
 			// }
 		}
 
-		bar1 = new Image("Scene\\results\\bar\\" + Setting.ColorTeam1.toString().toLowerCase() + "_bar.png");
-		bar2 = new Image("Scene\\results\\bar\\" + Setting.ColorTeam2.toString().toLowerCase() + "_bar.png");
-		kill = new Image("Scene\\results\\kill.png");
-		death = new Image("Scene\\results\\Death_2.png");
+		// TODO かな？ファイルは何時読み込むべき？
+		bar1 = new Image("res/client/img/Scene/results/bar/" + Setting.ColorTeam1.toString().toLowerCase() + "_bar.png");
+		bar2 = new Image("res/client/img/Scene/results/bar/" + Setting.ColorTeam2.toString().toLowerCase() + "_bar.png");
+		kill = new Image("res/client/img/Scene/results/kill.png");
+		death = new Image("res/client/img/Scene/results/Death_2.png");
 
 		System.out.println("チーム0???? " + score.painted[0]);
 		System.out.println("チーム1???? " + score.painted[1]);
