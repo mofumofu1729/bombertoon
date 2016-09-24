@@ -28,7 +28,7 @@ private Music matchBGM;
 		// TODO 自動生成されたメソッド・スタブ
 		match = new Image("Scene\\matching\\matching.png");
 		matchBGM = new Music("res/client/sound/BGM/matchingBGM.ogg");
-		matched = new Sound("SE\\matched.ogg");
+		matched = new Sound("res/client/sound/SE/matched.ogg");
 	}
 
 	@Override
