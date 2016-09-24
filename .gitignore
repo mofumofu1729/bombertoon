@@ -16,7 +16,7 @@ local.properties
 .recommenders
 
 # Eclipse Core
-# .project # cloneしたときプロジェクトを見つけられるようにするため
+# .project # cloneしたときプロジェクトを見つけられるようにするため泣く泣く...
 
 # External tool builders
 .externalToolBuilders/
@@ -31,7 +31,7 @@ local.properties
 .cproject
 
 # JDT-specific (Eclipse Java Development Tools)
-# .classpath # ビルドパスの構成を自動で行うため
+.classpath 
 
 # Java annotation processor (APT)
 .factorypath
