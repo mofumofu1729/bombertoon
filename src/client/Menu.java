@@ -83,7 +83,7 @@ public class Menu extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int arg2) throws SlickException {
 		dsum += arg2;
-		if (gc.getInput().isKeyPressed(Input.KEY_ENTER)) {
+		if (gc.getInput().isKeyPressed(Input.KEY_ENTER)&&decide!=0) {
 			menu.stop();
 			decision.play();
 
@@ -113,12 +113,14 @@ public class Menu extends BasicGameState {
 		 * break;
 		 */
 		case 0:
+			System.out.println("ここ");
+			break;
 		case 1:
-			nextState = State.MATCHING;
+			nextState = State.MATCHING ;
 
 			break;
 		case 2:
-			nextState = State.CONFIG;
+			nextState = State.CONFIG ;
 
 			break;
 		case 3:
