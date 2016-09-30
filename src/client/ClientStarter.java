@@ -1,9 +1,7 @@
 package client;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -51,6 +49,9 @@ public class ClientStarter extends StateBasedGame {
 						.getAbsolutePath()); */
 
 		AppGameContainer app = new AppGameContainer(new ClientStarter("client"));
+		String[] icons = {"res/icons/icon16.png","res/icons/icon32.png","res/icons/icon48.png"};
+
+		app.setIcons(icons);
 		app.setDisplayMode(800, 600, false);
 		app.setTargetFrameRate(FPS);
 		app.start();
