@@ -30,6 +30,7 @@ public class Credit extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
 				credit_image.draw();
+				arg2.drawString("Press Esc to return Menu",300,550);
 
 	}
 
