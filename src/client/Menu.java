@@ -15,6 +15,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class Menu extends BasicGameState {
 	private final int MODENUMBERS = 4;
+	private final int UPLIMIT = 1;
 	private int state;
 	// private Music bgm;
 
@@ -47,7 +48,7 @@ public class Menu extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		// bgm = new Music("res/takonaguri.ogg");
 
-		decide = 0;
+		decide = UPLIMIT;
 		dsum = 0;
 
 	}
@@ -93,7 +94,7 @@ public class Menu extends BasicGameState {
 			sbg.enterState(nextState, new FadeOutTransition(Color.black, 1000),
 					new FadeInTransition(Color.black, 1000));
 		}
-		if (gc.getInput().isKeyDown(Input.KEY_UP) && (decide > 0) && (dsum >= 200)) {
+		if (gc.getInput().isKeyDown(Input.KEY_UP) && (decide > UPLIMIT) && (dsum >= 200)) {
 			decide--;
 			System.out.println(decide);
 			select.play();
@@ -113,12 +114,14 @@ public class Menu extends BasicGameState {
 		 * break;
 		 */
 		case 0:
+			System.out.println("ここ");
+			break;
 		case 1:
-			nextState = State.MATCHING;
+			nextState = State.MATCHING ;
 
 			break;
 		case 2:
-			nextState = State.CONFIG;
+			nextState = State.CONFIG ;
 
 			break;
 		case 3:
