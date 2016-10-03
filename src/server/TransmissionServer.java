@@ -174,7 +174,7 @@ public class TransmissionServer extends Thread {
 			System.out.println("The server has launched!");
 			
 			// ゲームループ
-			// while(true) {
+			 while(true) {
 				// 待ち受け
 				while (true) {
 					incoming[n] = server.accept(); // 接続要求をを待ち続ける
@@ -201,14 +201,16 @@ public class TransmissionServer extends Thread {
 			
 				// 戦闘中は接続依頼を追い返す
 				while (true) {
+					System.out.println("追い返してる");
 					Socket s = server.accept();
-					(new PrintWriter(s.getOutputStream())).println("BUSY");
+					(new PrintWriter(s.getOutputStream(), true)).println("BUSY");
+					
 					s.close();
 					
 					System.out.println("reject a connection"); // TODO debug
 				}
 				
-			// }
+			}
 		} catch (Exception e) {
 			System.err.println("ソケット作成時にエラーが発生しました: ");
 			e.printStackTrace();

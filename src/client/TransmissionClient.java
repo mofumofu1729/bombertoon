@@ -69,7 +69,7 @@ public class TransmissionClient {
 		try {	
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			while ((responce = br.readLine()) == null) 
-				;
+				System.out.println("waiting for responce"); // TODO debug
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -78,7 +78,7 @@ public class TransmissionClient {
 				
 		if (responce.equals("BUSY")) { // 戦闘中だったら
 			try {
-				socket.close();
+				socket.close(); // TODO 毎回作って閉じるのは無駄だな・・・
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
