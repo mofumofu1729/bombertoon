@@ -48,6 +48,8 @@ private Music matchBGM;
 			return;
 		}
 
+		ClientStarter.getTransmissionClient().openConection();
+		
 		if (ClientStarter.getTransmissionClient().isReady()) {
 
 			// TODO debug
