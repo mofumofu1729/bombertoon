@@ -200,7 +200,7 @@ public class TransmissionServer extends Thread {
 				}
 			
 				// 戦闘中は接続依頼を追い返す
-				while (true) {
+				while (isBattling) {
 					System.out.println("追い返してる");
 					Socket s = server.accept();
 					(new PrintWriter(s.getOutputStream(), true)).println("BUSY");
@@ -209,6 +209,8 @@ public class TransmissionServer extends Thread {
 					
 					System.out.println("reject a connection"); // TODO debug
 				}
+				
+				// 戦闘終了処理
 				
 			}
 		} catch (Exception e) {
