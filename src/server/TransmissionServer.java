@@ -26,6 +26,8 @@ public class TransmissionServer extends Thread {
 
 	private static TransmissionServer instance;
 
+	private boolean isBattling = false; // 戦闘中かを示す
+	
 	// TODO debug
 	static int numInstance = 0;
 
@@ -125,13 +127,7 @@ public class TransmissionServer extends Thread {
 
 	// ready
 	public boolean isReady() {
-		// TODO debug
-		// System.out.println("member:"+member+",max_player:"+MAX_PLAYER);
-		if (member == MAX_PLAYER) {
-			return true;
-		} else {
-			return false;
-		}
+		return isBattling;
 	}
 
 	/*******************************追記部分(6/21)***********************/
@@ -174,35 +170,41 @@ public class TransmissionServer extends Thread {
 		int n = 0;
 
 		try {
+			// サーバ起動
 			System.out.println("The server has launched!");
 			ServerSocket server = new ServerSocket(PORT);// 10000番ポートを利用する
+			
+			// ゲームループ
+			// while(true) {
+				// 待ち受け
+				while (true) {
+					incoming[n] = server.accept(); // 接続要求をを待ち続ける
+					System.out.println("Accept client No." + n);
 
-			while (true) {
-				incoming[n] = server.accept(); // 接続要求をを待ち続ける
-				System.out.println("Accept client No." + n);
+					// 必要な入出力ストリームを作成する
+					isr[n] = new InputStreamReader(incoming[n].getInputStream());
+					in[n] = new BufferedReader(isr[n]);
+					out[n] = new PrintWriter(incoming[n].getOutputStream(), true);
+					
+					myClientProcThread[n] = new ClientProcThread(this, n, incoming[n], isr[n], in[n], out[n]);// 必要なパラメータを渡しスレッドを作成
+					myClientProcThread[n].start();// スレッドを開始する
 
-				// 必要な入出力ストリームを作成する
-				isr[n] = new InputStreamReader(incoming[n].getInputStream());
-				in[n] = new BufferedReader(isr[n]);
-				out[n] = new PrintWriter(incoming[n].getOutputStream(), true);
-
-				myClientProcThread[n] = new ClientProcThread(this, n, incoming[n], isr[n], in[n], out[n]);// 必要なパラメータを渡しスレッドを作成
-				myClientProcThread[n].start();// スレッドを開始する
-
-				n++;
-				member = n;// メンバーの数を更新する
-
-
-				// 6/21変更 ゲーム開始の合図はGameClient側で送るようにする
+					n++;
+					member = n;// メンバーの数を更新する
+					
+					if (member == MAX_PLAYER) { // 人数が揃ったら開始
+						isBattling = true;
+						break;
+					}	
+				}
+			
 				/*
-				if (member == MAX_PLAYER) {
-					announceReady();
-
-					break;
+				// 戦闘中は接続依頼を追い返す
+				while (true) {
+					;
 				}
 				*/
-
-			}
+			// }
 		} catch (Exception e) {
 			System.err.println("ソケット作成時にエラーが発生しました: ");
 			e.printStackTrace();
