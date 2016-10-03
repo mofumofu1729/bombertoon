@@ -170,9 +170,8 @@ public class TransmissionServer extends Thread {
 		int n = 0;
 
 		try {
-			// サーバ起動
+			ServerSocket server = new ServerSocket(PORT); // サーバ起動
 			System.out.println("The server has launched!");
-			ServerSocket server = new ServerSocket(PORT);// 10000番ポートを利用する
 			
 			// ゲームループ
 			// while(true) {
@@ -186,6 +185,8 @@ public class TransmissionServer extends Thread {
 					in[n] = new BufferedReader(isr[n]);
 					out[n] = new PrintWriter(incoming[n].getOutputStream(), true);
 					
+					out[n].println("CONNECTED"); // 接続完了の合図
+					
 					myClientProcThread[n] = new ClientProcThread(this, n, incoming[n], isr[n], in[n], out[n]);// 必要なパラメータを渡しスレッドを作成
 					myClientProcThread[n].start();// スレッドを開始する
 
@@ -198,12 +199,15 @@ public class TransmissionServer extends Thread {
 					}	
 				}
 			
-				/*
 				// 戦闘中は接続依頼を追い返す
 				while (true) {
-					;
+					Socket s = server.accept();
+					(new PrintWriter(s.getOutputStream())).println("BUSY");
+					s.close();
+					
+					System.out.println("reject a connection"); // TODO debug
 				}
-				*/
+				
 			// }
 		} catch (Exception e) {
 			System.err.println("ソケット作成時にエラーが発生しました: ");

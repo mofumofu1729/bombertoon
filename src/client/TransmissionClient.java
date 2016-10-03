@@ -1,6 +1,8 @@
 package client;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -34,15 +36,35 @@ public class TransmissionClient {
 		// サーバに接続する
 		Socket socket = null;
 		try {
-
-			socket = new Socket(hostname, portnumber);
-			out = new PrintWriter(socket.getOutputStream(), true);
+			while(true) {
+				socket = new Socket(hostname, portnumber);
+				out = new PrintWriter(socket.getOutputStream(), true);
+				String responce; // サーバーからの応答
+				
+				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				while ((responce = br.readLine()) == null) 
+					;
+				
+				System.out.println(responce); // TODO debug
+				
+				if (responce.equals("BUSY")) { // 戦闘中だったら
+					socket.close();
+					
+					
+					continue;
+				} else if (responce.equals("CONNECTED")) { // 戦闘中ではなかったら
+					break;
+				} else {
+					throw new IOException("unknown responce message");
+				}
+			}		
 		} catch (UnknownHostException e) {
 			System.err.println("ホストの IP アドレスが判定できません: " + e);
 		} catch (IOException e) {
 			System.err.println("エラーが発生しました: " + e);
-		}
+		} 
 
+		// メッセージ受信用のスレッド作成
 		MesgRecvThread mrt = new MesgRecvThread(this, socket);
 		mrt.start();
 	}
