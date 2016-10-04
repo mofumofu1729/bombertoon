@@ -43,7 +43,7 @@ public class BattleServer extends BasicGameState {
 			ts = TransmissionServer.getInstance();
 			ts.start();
 		}
-		int timeLeft = 2000;
+		int timeLeft = TIMELIMIT;
 
 	}
 
@@ -71,8 +71,8 @@ public class BattleServer extends BasicGameState {
 			if (isSendReady == false) {
 				Random r = new Random();
 				int color = r.nextInt(4);
-				Setting.ColorTeam1=common.ColorPair.getColorPair(color)[0];
-				Setting.ColorTeam2=common.ColorPair.getColorPair(color)[1];
+				Setting.ColorTeam1 = common.ColorPair.getColorPair(color)[0];
+				Setting.ColorTeam2 = common.ColorPair.getColorPair(color)[1];
 				for (int i = 0; i < PLAYERNUMBER; i++) {
 					switch (i) { // TODO 色のランダム化
 					case 0:
@@ -82,17 +82,19 @@ public class BattleServer extends BasicGameState {
 						player[i] = new PlayerServer(FIELDHEIGHT - 1, 0, Setting.ColorTeam2, 1, Direction.DOWN, ts);
 						break;
 					case 2:
-						player[i] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT - 1, Setting.ColorTeam1, 2, Direction.DOWN,
-								ts);
+						player[i] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT - 1, Setting.ColorTeam1, 2,
+								Direction.DOWN, ts);
 						break;
 					case 3:
 						player[i] = new PlayerServer(0, FIELDHEIGHT - 1, Setting.ColorTeam2, 3, Direction.DOWN, ts);
 						break;
 					}
 
-					// player[0] = new PlayerServer(0, 0, Color.Blue, 0, Direction.DOWN,
+					// player[0] = new PlayerServer(0, 0, Color.Blue, 0,
+					// Direction.DOWN,
 					// ts); // tsが引数にあるのはannouncehumanで自分の死を伝える必要があるため
-					// player[1] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT - 1,
+					// player[1] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT
+					// - 1,
 					// Color.Green, 1, Direction.UP, ts);
 
 					// player[0].initialX = 0;
@@ -103,7 +105,7 @@ public class BattleServer extends BasicGameState {
 
 				}
 
-				for (int y = 0; y < FIELDHEIGHT; y++) {
+				for (int y = 0; y < FIELDHEIGHT; y++) {// ここで障害物と無敵エリアを設定する
 					for (int x = 0; x < FIELDHEIGHT; x++) {
 						switch (fieldData[x + y * FIELDWIDTH]) {
 						case 0:
@@ -145,7 +147,7 @@ public class BattleServer extends BasicGameState {
 		// .out.println("終わり");
 
 		gameTimer -= dlt;
-		ts.announceTime(gameTimer);
+		ts.announceTime(gameTimer); //ここで残り時間を伝える
 		if (gameTimer / 1000 <= 0 && isSent == false) { // ゲーム時間が終わったら // 画面遷移
 			int team1 = 0;
 			int team2 = 0;
@@ -279,12 +281,11 @@ public class BattleServer extends BasicGameState {
 		player = new PlayerServer[PLAYERNUMBER];
 		field = new FieldServer[FIELDHEIGHT][FIELDWIDTH];
 
-
 		enterFinished = true;
 	}
 
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-		;
+		this.setInitialValue();
 	}
 
 	public void gameResult() {
@@ -292,6 +293,12 @@ public class BattleServer extends BasicGameState {
 
 		}
 
+	}
+
+	private void setInitialValue() {
+		this.enterFinished = false; // 画面遷移が終わったか
+		this.isSendReady = false; // 開始の合図を既に送ったか
+		this.isSent = false;
 	}
 
 	@Override

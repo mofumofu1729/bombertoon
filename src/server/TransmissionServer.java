@@ -27,7 +27,7 @@ public class TransmissionServer extends Thread {
 	private static TransmissionServer instance;
 
 	private boolean isBattling = false; // 戦闘中かを示す
-	
+
 	// TODO debug
 	static int numInstance = 0;
 
@@ -124,29 +124,27 @@ public class TransmissionServer extends Thread {
 		}
 	}
 
-
 	// ready
 	public boolean isReady() {
 		return isBattling;
 	}
 
-	/*******************************追記部分(6/21)***********************/
+	/******************************* 追記部分(6/21) ***********************/
 	// 成績を送る
 	public void annouceScore(Score score) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
 			// debug
-			System.out.println("in ts: score null?+"+score);
-
+			System.out.println("in ts: score null?+" + score);
 
 			// プレイヤー数を送る
-			out[i].println("RESULT:PLAYERNUM:"+score.playerNum);
+			out[i].println("RESULT:PLAYERNUM:" + score.playerNum);
 			out[i].flush();
 
 			// 塗られたフィールド数を送る
-			for (int j=0; j<score.teamNum; j++)
+			for (int j = 0; j < score.teamNum; j++)
 				out[i].println("RESULT:FIELD:" + j + ":" + score.painted[j]);
 			// キル数，デス数を送る
-			for (int j=0; j<score.playerNum; j++) {
+			for (int j = 0; j < score.playerNum; j++) {
 				out[i].println("RESULT:KILL:" + j + ":" + score.kill[j]);
 				out[i].println("RESULT:DEATH:" + j + ":" + score.death[j]);
 			}
@@ -157,14 +155,12 @@ public class TransmissionServer extends Thread {
 	// ゲームの開始を伝える（色のペアの番号を送るよ）
 	public void announceReady(int colorPairNum) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
-			out[i].println("READY:COLOR:"+colorPairNum);
+			out[i].println("READY:COLOR:" + colorPairNum);
 			out[i].flush();
 		}
 	}
 
 	/******************************************************/
-
-
 
 	public void run() {
 		int n = 0;
@@ -172,9 +168,9 @@ public class TransmissionServer extends Thread {
 		try {
 			ServerSocket server = new ServerSocket(PORT); // サーバ起動
 			System.out.println("The server has launched!");
-			
+
 			// ゲームループ
-			 while(true) {
+			while (true) {
 				// 待ち受け
 				while (true) {
 					incoming[n] = server.accept(); // 接続要求をを待ち続ける
@@ -184,34 +180,34 @@ public class TransmissionServer extends Thread {
 					isr[n] = new InputStreamReader(incoming[n].getInputStream());
 					in[n] = new BufferedReader(isr[n]);
 					out[n] = new PrintWriter(incoming[n].getOutputStream(), true);
-					
+
 					out[n].println("CONNECTED"); // 接続完了の合図
-					
+
 					myClientProcThread[n] = new ClientProcThread(this, n, incoming[n], isr[n], in[n], out[n]);// 必要なパラメータを渡しスレッドを作成
 					myClientProcThread[n].start();// スレッドを開始する
 
 					n++;
 					member = n;// メンバーの数を更新する
-					
+
 					if (member == MAX_PLAYER) { // 人数が揃ったら開始
 						isBattling = true;
 						break;
-					}	
+					}
 				}
-			
+
 				// 戦闘中は接続依頼を追い返す
 				while (isBattling) {
 					System.out.println("追い返してる");
 					Socket s = server.accept();
 					(new PrintWriter(s.getOutputStream(), true)).println("BUSY");
-					
+
 					s.close();
-					
+
 					System.out.println("reject a connection"); // TODO debug
 				}
-				
+
 				// 戦闘終了処理
-				
+
 			}
 		} catch (Exception e) {
 			System.err.println("ソケット作成時にエラーが発生しました: ");
