@@ -1,9 +1,7 @@
 package server;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -15,12 +13,13 @@ public class ServerStarter extends StateBasedGame {
 	public ServerStarter(String name) throws IOException {
 		super(name);
 		this.addState(new BattleServer(State.BATTLESERVER));
+		this.addState(new BattleServer(State.MATCHINGSERVER));
 
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException {
 	//	this.getState(State.BATTLESERVER).init(gc, this);
-		this.enterState(State.BATTLESERVER);
+		this.enterState(State.MATCHINGSERVER);
 	}
 
 	public static void main(String[] args) throws SlickException, IOException {
