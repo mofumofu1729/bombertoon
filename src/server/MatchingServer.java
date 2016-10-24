@@ -48,16 +48,13 @@ public class MatchingServer extends BasicGameState {
 		}
 	}
 
-	public MatchingServer() {
+	public MatchingServer(int state) {
 		this.state = state;
-
-		// TODO 自動生成されたコンストラクター・スタブ
-	}
+}
 
 	@Override
 	public int getID() {
-		// TODO 自動生成されたメソッド・スタブ
-		return 0;
+		return state;
 	}
 
 	@Override
