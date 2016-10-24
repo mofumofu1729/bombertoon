@@ -256,11 +256,11 @@ public class BattleServer extends BasicGameState {
 	private void setInitialField(PlayerServer p[],FieldServer f[][]) {
 		// 対戦毎に必要な初期設定。ここから。
 		Random r = new Random();
-		int color = r.nextInt(4);
+		int color = r.nextInt(4); // 対戦色を得る
 		Setting.ColorTeam1 = common.ColorPair.getColorPair(color)[0];
 		Setting.ColorTeam2 = common.ColorPair.getColorPair(color)[1];
 		for (int i = 0; i < PLAYERNUMBER; i++) {
-			switch (i) { // TODO 色のランダム化
+			switch (i) { 
 			case 0:
 				p[i] = new PlayerServer(0, 0, Setting.ColorTeam1, 0, Direction.DOWN, ts);
 				break;

@@ -7,8 +7,8 @@ public class ColorPair {
 		Color [] cl =new Color[2];
 		switch (getNumber){
 		case 0:
-		cl[0]=Color.Blue;
-		cl[1]=Color.Orange;
+			cl[0]=Color.Blue;
+			cl[1]=Color.Orange;
 		break;
 		case 1:
 			cl[0]=Color.Pink;
