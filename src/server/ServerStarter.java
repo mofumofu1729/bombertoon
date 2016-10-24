@@ -12,24 +12,16 @@ public class ServerStarter extends StateBasedGame {
 
 	public ServerStarter(String name) throws IOException {
 		super(name);
+		this.addState(new MatchingServer(State.MATCHINGSERVER)); // 一番最初に登録された状態が呼ばれる
 		this.addState(new BattleServer(State.BATTLESERVER));
-		this.addState(new BattleServer(State.MATCHINGSERVER));
-
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException {
-	//	this.getState(State.BATTLESERVER).init(gc, this);
-		this.enterState(State.MATCHINGSERVER);
+		this.getState(State.MATCHINGSERVER).init(gc, this);
+		this.getState(State.BATTLESERVER).init(gc, this);
 	}
 
 	public static void main(String[] args) throws SlickException, IOException {
-		// この行はちょっと怪しいので後で直す
-		/*
-		System.setProperty("org.lwjgl.librarypath",
-				new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName())
-						.getAbsolutePath());
-		*/
-
 		AppGameContainer app = new AppGameContainer(new ServerStarter("server"));
 		app.setDisplayMode(800, 600, false);
 		app.setTargetFrameRate(FPS);

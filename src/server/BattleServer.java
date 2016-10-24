@@ -219,6 +219,10 @@ public class BattleServer extends BasicGameState {
 
 		player = new PlayerServer[PLAYERNUMBER];
 		field = new FieldServer[FIELDHEIGHT][FIELDWIDTH];
+		
+		// debug
+		System.out.println("enter BattleServer");
+		
 		setInitialField(player,field);
 		//enterFinished = true;
 	}

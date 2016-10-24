@@ -59,7 +59,9 @@ public class MatchingServer extends BasicGameState {
 
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-		// TODO 自動生成されたメソッド・スタブ
+		// debug
+		System.out.println("enter MachingServer");
+		
 		enterFinished = true;
 	}
 
