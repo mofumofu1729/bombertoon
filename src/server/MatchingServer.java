@@ -10,10 +10,11 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class MatchingServer extends BasicGameState {
-	boolean enterFinished = false;
-	boolean isSendReady = false;
+	private boolean enterFinished = false; // MatchingServerへの画面遷移が完了したか
+	private boolean isSendReady = false;
 	private int state;
-
+	private TransmissionServer ts;
+	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		// TODO 自動生成されたメソッド・スタブ
@@ -28,15 +29,12 @@ public class MatchingServer extends BasicGameState {
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame sbg, int arg2) throws SlickException {
-		// TODO 自動生成されたメソッド・スタブ
-		if (!(BattleServer.ts.isReady())) {
+		/*
+		if (!(BattleServer.ts.isReady())) { // まだクライアントの接続が完了していない
 			return;
-		} else if (!enterFinished) {
-			// TODO debug
-			// System.out.println("返された");
+		} else if (!enterFinished) { // まだMachingServerへの画面遷移が完了していない
 			return;
 		} else {
-			// 6/21 変更 okmt
 			if (isSendReady == false) {
 				// setInitialField(player, field);
 				sbg.enterState(State.BATTLESERVER, new FadeOutTransition(Color.black, 1000),
@@ -46,6 +44,16 @@ public class MatchingServer extends BasicGameState {
 
 			}
 		}
+		*/
+		
+		if (ts.isReady()) { 
+			sbg.enterState(State.BATTLESERVER, new FadeOutTransition(Color.black, 1000),
+					new FadeInTransition(Color.black, 1000));
+			System.out.println("バトサに移動");
+		}
+		
+			
+		
 	}
 
 	public MatchingServer(int state) {
@@ -62,6 +70,8 @@ public class MatchingServer extends BasicGameState {
 		// debug
 		System.out.println("enter MachingServer");
 		
+		ts = TransmissionServer.createInstance();
+		ts.start();
 		enterFinished = true;
 	}
 

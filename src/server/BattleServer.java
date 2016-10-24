@@ -27,7 +27,7 @@ public class BattleServer extends BasicGameState {
 	int gameTimer;// ゲーム自体の残り時間
 	public PlayerServer[] player;
 	FieldServer[][] field;
-	static TransmissionServer ts; //ここをstaticにしたので恐ろしい(10/9 KJ)
+	private TransmissionServer ts; 
 	int timeLeft;
 	int team1Point;
 	int team2Point;
@@ -39,11 +39,7 @@ public class BattleServer extends BasicGameState {
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		if (ts == null) {
-			ts = TransmissionServer.getInstance(); // tsが必要なのはBS ここは残す
-			ts.start();
-		}
-		int timeLeft = TIMELIMIT;
+		
 
 	}
 
@@ -113,6 +109,17 @@ public class BattleServer extends BasicGameState {
 			ts.annouceScore(score);
 			ts.announceFinish();
 			isSent = true;
+			
+			ts.finishGame(); // ゲーム終了
+			
+			try {
+				Thread.sleep(500);  // 同じポート番号が使えるまで少し時間がかかるので待機
+									// TODO 本当はもう少し安全な方法を使うべき
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			sbg.enterState(State.MATCHINGSERVER); 
 
 		}
 		for (int i = 0; i < PLAYERNUMBER; i++) {
@@ -214,7 +221,7 @@ public class BattleServer extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 
 		fieldData = Setting.STAGE4TWO; // フィールドのパラメータ
-
+		ts = TransmissionServer.getInstance();
 		gameTimer = TIMELIMIT;
 
 		player = new PlayerServer[PLAYERNUMBER];

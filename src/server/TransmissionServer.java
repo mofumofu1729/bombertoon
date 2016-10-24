@@ -1,10 +1,12 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import common.Score;
 
@@ -25,11 +27,8 @@ public class TransmissionServer extends Thread {
 	private int[] bombs;
 
 	private static TransmissionServer instance;
-
+	
 	private boolean isBattling = false; // 戦闘中かを示す
-
-	// TODO debug
-	static int numInstance = 0;
 
 	// constructor
 	private TransmissionServer() {
@@ -44,13 +43,16 @@ public class TransmissionServer extends Thread {
 		for (int i = 0; i < MAX_PLAYER; i++) // 初期化
 			direction[i] = Direction.NONE;
 		bombs = new int[MAX_PLAYER];
-
 	}
 
-	public static synchronized TransmissionServer getInstance() {
-		if (instance == null) {
-			instance = new TransmissionServer();
-		}
+	public static TransmissionServer createInstance() {
+		instance = new TransmissionServer();
+		return instance;
+	}
+	
+	public static TransmissionServer getInstance() {
+		if (instance == null)
+			createInstance();
 		return instance;
 	}
 
@@ -160,17 +162,28 @@ public class TransmissionServer extends Thread {
 		}
 	}
 
-	/******************************************************/
 
+	// ゲームを終了させる
+	public void finishGame()  {
+		isBattling = false;
+		Socket socket;
+		try {
+			socket = new Socket("127.0.0.1",PORT); // 追い返そうと待機しているサーバに接続
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
+		
+	}
+	
+	
 	public void run() {
 		int n = 0;
 
 		try {
 			ServerSocket server = new ServerSocket(PORT); // サーバ起動
 			System.out.println("The server has launched!");
-
-			// ゲームループ
-			while (true) {
 				// 待ち受け
 				while (true) {
 					incoming[n] = server.accept(); // 接続要求をを待ち続ける
@@ -207,8 +220,9 @@ public class TransmissionServer extends Thread {
 				}
 
 				// 戦闘終了処理
+				server.close();
+				System.out.println("battle end"); // debug
 
-			}
 		} catch (Exception e) {
 			System.err.println("ソケット作成時にエラーが発生しました: ");
 			e.printStackTrace();
@@ -226,5 +240,7 @@ public class TransmissionServer extends Thread {
 	void setBomb(int playerID) {
 		bombs[playerID]++;
 	}
+	
+	
 
 }
