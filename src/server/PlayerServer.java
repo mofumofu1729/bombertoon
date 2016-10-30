@@ -2,7 +2,7 @@ package server;
 
 public class PlayerServer {
 	/*
-	 * 作成日 6/1 作成者 道券裕二
+	 * 作成日 6/1 作成者 道券裕二 // ただしのちに更に色々変更あり
 	 */
 	int killTimes;// キル数
 	int deathTimes;// デス数
