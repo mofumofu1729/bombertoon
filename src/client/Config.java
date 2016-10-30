@@ -102,8 +102,13 @@ public class Config extends BasicGameState {
 		portNumber.setTextColor(Color.black);
 		portNumber.setAcceptingInput(true);
 		portNumber.setFocus(false);
-	}
 
+	}
+	@Override
+	public void leave(GameContainer container, StateBasedGame game) throws SlickException {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
 	@Override
 	public int getID() {
 		return state;

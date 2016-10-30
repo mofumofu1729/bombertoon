@@ -1,6 +1,8 @@
 package client;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -11,18 +13,26 @@ import common.Setting;
 
 public class TransmissionClient {
 	private PrintWriter out;// 出力用のライター
-	private boolean ready = false; // 準備出来たか
-
+	
+	private boolean ready = false; // サーバー側でゲームを開始する準備ができたか
+	private boolean isConnected = false; // サーバと接続が確立されたか
+	private boolean isFinish = false; // ゲームが終わったか
+	
+	
 	private Queue<PlayerClient> recievedHumanBuffer;
 	private Queue<FieldClient> recievedFieldBuffer;
 
-	public static final int MAX_PLAYER = Setting.P;
-	private boolean isFinish = false; // 終了
+	public static final int MAX_PLAYER = Setting.P; // プレイヤーの人数	
 	private int time; // 経過時間か何か
-	static String hostName="localhost";
+	
+	static String hostName="localhost"; // TODO Config.update()から参照されている staticでやるのはあまり良くない
+	private int portnumber;
+	private Socket socket = null;
+
+	
 	private common.Score score; // 成績
 	private int colorPair;
-
+	
 	public TransmissionClient() {
 		this(hostName, server.TransmissionServer.PORT);
 	}
@@ -31,31 +41,77 @@ public class TransmissionClient {
 		recievedHumanBuffer = new ArrayDeque<PlayerClient>();
 		recievedFieldBuffer = new ArrayDeque<FieldClient>();
 
-		// サーバに接続する
-		Socket socket = null;
-		try {
+		TransmissionClient.hostName = hostname;
+		this.portnumber = portnumber;
+	}
 
-			socket = new Socket(hostname, portnumber);
-			out = new PrintWriter(socket.getOutputStream(), true);
+	// サーバーに接続
+	public boolean openConection() {		
+		if (isConnected)
+			return true;
+		
+		try {
+			socket = new Socket(TransmissionClient.hostName, this.portnumber);
 		} catch (UnknownHostException e) {
 			System.err.println("ホストの IP アドレスが判定できません: " + e);
 		} catch (IOException e) {
 			System.err.println("エラーが発生しました: " + e);
 		}
+		
+		
+		try {
+			out = new PrintWriter(socket.getOutputStream(), true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String responce = null; // サーバーからの応答
 
-		MesgRecvThread mrt = new MesgRecvThread(this, socket);
-		mrt.start();
+		try {	
+			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			while ((responce = br.readLine()) == null) 
+				System.out.println("waiting for responce"); // TODO debug
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(responce); // TODO debug
+				
+		if (responce.equals("BUSY")) { // 戦闘中だったら
+			try {
+				socket.close(); // TODO 毎回作って閉じるのは無駄だな・・・
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return false;
+		} else if (responce.equals("CONNECTED")) { // 戦闘中ではなかったら
+			// メッセージ受信用のスレッド作成
+			MesgRecvThread mrt = new MesgRecvThread(this, socket);
+			mrt.start();
+			isConnected = true;
+			return true;
+		} else {
+			System.err.println("unknown responce message");
+			System.exit(-1);
+			return true; // この行は実行されない
+		}
 	}
-
+	
+	// サーバとの接続を切断
+	public void closeConnection() {
+		try {
+			socket.close();
+			isConnected = false;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// send
 	public void sendHuman(Direction dir) {
 		out.println(dir.name());
 	}
 
 	public void sendBomb() {
-		// TODO debug
-		// System.out.println("SBBBBBBBBBBBBBBBBBBBBBBB");
-
 		out.println("BOMB");
 	}
 
@@ -110,6 +166,7 @@ public class TransmissionClient {
 
 	void setFinish() {
 		isFinish = true;
+		closeConnection(); // ここで接続を切る
 	}
 
 	void setTime(int time) {

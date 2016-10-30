@@ -26,7 +26,7 @@ public class MesgRecvThread extends Thread {
 			BufferedReader br = new BufferedReader(sisr);
 			out = new PrintWriter(socket.getOutputStream(), true);
 
-			while (true) {
+			messageLoop: while (true) {
 				String inputLine = br.readLine();
 				if (inputLine != null) {
 					int x, y;
@@ -76,11 +76,8 @@ public class MesgRecvThread extends Thread {
 						break;
 					case "FINISH": // 終了
 						tc.setFinish();
-
-						// TODO debug
-						// System.out.println("FINISH!");
-
-						break;
+						
+						break messageLoop; // メッセージ受信ループを抜ける
 					case "TIME": // 時間を送る
 						tc.setTime(Integer.parseInt(command[1]));
 

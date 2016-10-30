@@ -1,10 +1,12 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import common.Score;
 
@@ -25,9 +27,8 @@ public class TransmissionServer extends Thread {
 	private int[] bombs;
 
 	private static TransmissionServer instance;
-
-	// TODO debug
-	static int numInstance = 0;
+	
+	private boolean isBattling = false; // 戦闘中かを示す
 
 	// constructor
 	private TransmissionServer() {
@@ -42,13 +43,16 @@ public class TransmissionServer extends Thread {
 		for (int i = 0; i < MAX_PLAYER; i++) // 初期化
 			direction[i] = Direction.NONE;
 		bombs = new int[MAX_PLAYER];
-
 	}
 
-	public static synchronized TransmissionServer getInstance() {
-		if (instance == null) {
-			instance = new TransmissionServer();
-		}
+	public static TransmissionServer createInstance() {
+		instance = new TransmissionServer();
+		return instance;
+	}
+	
+	public static TransmissionServer getInstance() {
+		if (instance == null)
+			createInstance();
 		return instance;
 	}
 
@@ -122,35 +126,27 @@ public class TransmissionServer extends Thread {
 		}
 	}
 
-
 	// ready
 	public boolean isReady() {
-		// TODO debug
-		// System.out.println("member:"+member+",max_player:"+MAX_PLAYER);
-		if (member == MAX_PLAYER) {
-			return true;
-		} else {
-			return false;
-		}
+		return isBattling;
 	}
 
-	/*******************************追記部分(6/21)***********************/
+	/******************************* 追記部分(6/21) ***********************/
 	// 成績を送る
 	public void annouceScore(Score score) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
 			// debug
-			System.out.println("in ts: score null?+"+score);
-
+			System.out.println("in ts: score null?+" + score);
 
 			// プレイヤー数を送る
-			out[i].println("RESULT:PLAYERNUM:"+score.playerNum);
+			out[i].println("RESULT:PLAYERNUM:" + score.playerNum);
 			out[i].flush();
 
 			// 塗られたフィールド数を送る
-			for (int j=0; j<score.teamNum; j++)
+			for (int j = 0; j < score.teamNum; j++)
 				out[i].println("RESULT:FIELD:" + j + ":" + score.painted[j]);
 			// キル数，デス数を送る
-			for (int j=0; j<score.playerNum; j++) {
+			for (int j = 0; j < score.playerNum; j++) {
 				out[i].println("RESULT:KILL:" + j + ":" + score.kill[j]);
 				out[i].println("RESULT:DEATH:" + j + ":" + score.death[j]);
 			}
@@ -161,48 +157,72 @@ public class TransmissionServer extends Thread {
 	// ゲームの開始を伝える（色のペアの番号を送るよ）
 	public void announceReady(int colorPairNum) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
-			out[i].println("READY:COLOR:"+colorPairNum);
+			out[i].println("READY:COLOR:" + colorPairNum);
 			out[i].flush();
 		}
 	}
 
-	/******************************************************/
 
-
-
+	// ゲームを終了させる
+	public void finishGame()  {
+		isBattling = false;
+		Socket socket;
+		try {
+			socket = new Socket("127.0.0.1",PORT); // 追い返そうと待機しているサーバに接続
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
+		
+	}
+	
+	
 	public void run() {
 		int n = 0;
 
 		try {
+			ServerSocket server = new ServerSocket(PORT); // サーバ起動
 			System.out.println("The server has launched!");
-			ServerSocket server = new ServerSocket(PORT);// 10000番ポートを利用する
+				// 待ち受け
+				while (true) {
+					incoming[n] = server.accept(); // 接続要求をを待ち続ける
+					System.out.println("Accept client No." + n);
 
-			while (true) {
-				incoming[n] = server.accept(); // 接続要求をを待ち続ける
-				System.out.println("Accept client No." + n);
+					// 必要な入出力ストリームを作成する
+					isr[n] = new InputStreamReader(incoming[n].getInputStream());
+					in[n] = new BufferedReader(isr[n]);
+					out[n] = new PrintWriter(incoming[n].getOutputStream(), true);
 
-				// 必要な入出力ストリームを作成する
-				isr[n] = new InputStreamReader(incoming[n].getInputStream());
-				in[n] = new BufferedReader(isr[n]);
-				out[n] = new PrintWriter(incoming[n].getOutputStream(), true);
+					out[n].println("CONNECTED"); // 接続完了の合図
 
-				myClientProcThread[n] = new ClientProcThread(this, n, incoming[n], isr[n], in[n], out[n]);// 必要なパラメータを渡しスレッドを作成
-				myClientProcThread[n].start();// スレッドを開始する
+					myClientProcThread[n] = new ClientProcThread(this, n, incoming[n], isr[n], in[n], out[n]);// 必要なパラメータを渡しスレッドを作成
+					myClientProcThread[n].start();// スレッドを開始する
 
-				n++;
-				member = n;// メンバーの数を更新する
+					n++;
+					member = n;// メンバーの数を更新する
 
-
-				// 6/21変更 ゲーム開始の合図はGameClient側で送るようにする
-				/*
-				if (member == MAX_PLAYER) {
-					announceReady();
-
-					break;
+					if (member == MAX_PLAYER) { // 人数が揃ったら開始
+						isBattling = true;
+						break;
+					}
 				}
-				*/
 
-			}
+				// 戦闘中は接続依頼を追い返す
+				while (isBattling) {
+					System.out.println("追い返してる");
+					Socket s = server.accept();
+					(new PrintWriter(s.getOutputStream(), true)).println("BUSY");
+
+					s.close();
+
+					System.out.println("reject a connection"); // TODO debug
+				}
+
+				// 戦闘終了処理
+				server.close();
+				System.out.println("battle end"); // debug
+
 		} catch (Exception e) {
 			System.err.println("ソケット作成時にエラーが発生しました: ");
 			e.printStackTrace();
@@ -220,5 +240,7 @@ public class TransmissionServer extends Thread {
 	void setBomb(int playerID) {
 		bombs[playerID]++;
 	}
+	
+	
 
 }

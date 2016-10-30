@@ -9,7 +9,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import common.Setting;
-
+//TODO マッチングと対戦とリザルトがくっついているからそれをバラけさせる
 //内部処理はこいつの管轄
 public class BattleServer extends BasicGameState {
 	public static final int PLAYERNUMBER = common.Setting.P;
@@ -27,7 +27,7 @@ public class BattleServer extends BasicGameState {
 	int gameTimer;// ゲーム自体の残り時間
 	public PlayerServer[] player;
 	FieldServer[][] field;
-	TransmissionServer ts;
+	private TransmissionServer ts; 
 	int timeLeft;
 	int team1Point;
 	int team2Point;
@@ -39,11 +39,7 @@ public class BattleServer extends BasicGameState {
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		if (ts == null) {
-			ts = TransmissionServer.getInstance();
-			ts.start();
-		}
-		int timeLeft = 2000;
+		
 
 	}
 
@@ -60,6 +56,9 @@ public class BattleServer extends BasicGameState {
 		// System.out.println(player[0].team.toString());
 		// System.out.println(player[1].team.toString());
 
+		//ここからがマッチングに必要な部分
+
+		/*
 		if (!ts.isReady()) {
 			return;
 		} else if (!enterFinished) {
@@ -69,83 +68,21 @@ public class BattleServer extends BasicGameState {
 		} else {
 			// 6/21 変更 okmt
 			if (isSendReady == false) {
-				Random r = new Random();
-				int color = r.nextInt(4);
-				Setting.ColorTeam1=common.ColorPair.getColorPair(color)[0];
-				Setting.ColorTeam2=common.ColorPair.getColorPair(color)[1];
-				for (int i = 0; i < PLAYERNUMBER; i++) {
-					switch (i) { // TODO 色のランダム化
-					case 0:
-						player[i] = new PlayerServer(0, 0, Setting.ColorTeam1, 0, Direction.DOWN, ts);
-						break;
-					case 1:
-						player[i] = new PlayerServer(FIELDHEIGHT - 1, 0, Setting.ColorTeam2, 1, Direction.DOWN, ts);
-						break;
-					case 2:
-						player[i] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT - 1, Setting.ColorTeam1, 2, Direction.DOWN,
-								ts);
-						break;
-					case 3:
-						player[i] = new PlayerServer(0, FIELDHEIGHT - 1, Setting.ColorTeam2, 3, Direction.DOWN, ts);
-						break;
-					}
-
-					// player[0] = new PlayerServer(0, 0, Color.Blue, 0, Direction.DOWN,
-					// ts); // tsが引数にあるのはannouncehumanで自分の死を伝える必要があるため
-					// player[1] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT - 1,
-					// Color.Green, 1, Direction.UP, ts);
-
-					// player[0].initialX = 0;
-					// player[0].initialY = 0;
-
-					// player[1].initialX = FIELDWIDTH - 1;
-					// player[1].initialY = FIELDHEIGHT - 1;
-
-				}
-
-				for (int y = 0; y < FIELDHEIGHT; y++) {
-					for (int x = 0; x < FIELDHEIGHT; x++) {
-						switch (fieldData[x + y * FIELDWIDTH]) {
-						case 0:
-							field[y][x] = new FieldServer(Status.NOTHING, x, y, ts, Color.Transparent);
-							break;
-						case 1:
-
-							field[y][x] = new FieldServer(Status.BREAKABLE1, x, y, ts, Color.Transparent);
-							break;
-						case 2:
-							field[y][x] = new FieldServer(Status.UNBREAKABLE, x, y, ts, Color.Transparent);
-							break;
-
-						case -1:
-							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);// TODO
-							// ちゃんと任意の色への無敵地点とする
-							break;
-						case -2:
-							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
-							break;
-						case -3:
-							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);
-							break;
-						case -4:
-							field[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
-
-							break;
-
-						}
-					}
-				}
-				ts.announceReady(color); // 準備が整ったらクライアントにゲーム開始の合図 TODO 色のペアは0
+				setInitialField(player,field);
 				isSendReady = true;
 			}
 		}
+*/
+		//ここまでがマッチングに必要な部分
+
+		//// 対戦毎に必要な初期設定。ここまで。
 
 		// System.out.println("フィールドのテスト");
 		// System.out.println(field[0][0]);
 		// .out.println("終わり");
 
 		gameTimer -= dlt;
-		ts.announceTime(gameTimer);
+		ts.announceTime(gameTimer); // ここで残り時間を伝える
 		if (gameTimer / 1000 <= 0 && isSent == false) { // ゲーム時間が終わったら // 画面遷移
 			int team1 = 0;
 			int team2 = 0;
@@ -172,6 +109,17 @@ public class BattleServer extends BasicGameState {
 			ts.annouceScore(score);
 			ts.announceFinish();
 			isSent = true;
+			
+			ts.finishGame(); // ゲーム終了
+			
+			try {
+				Thread.sleep(500);  // 同じポート番号が使えるまで少し時間がかかるので待機
+									// TODO 本当はもう少し安全な方法を使うべき
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			sbg.enterState(State.MATCHINGSERVER); 
 
 		}
 		for (int i = 0; i < PLAYERNUMBER; i++) {
@@ -273,18 +221,21 @@ public class BattleServer extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 
 		fieldData = Setting.STAGE4TWO; // フィールドのパラメータ
-
+		ts = TransmissionServer.getInstance();
 		gameTimer = TIMELIMIT;
 
 		player = new PlayerServer[PLAYERNUMBER];
 		field = new FieldServer[FIELDHEIGHT][FIELDWIDTH];
-
-
-		enterFinished = true;
+		
+		// debug
+		System.out.println("enter BattleServer");
+		
+		setInitialField(player,field);
+		//enterFinished = true;
 	}
 
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-		;
+		this.setInitialValue();
 	}
 
 	public void gameResult() {
@@ -293,6 +244,90 @@ public class BattleServer extends BasicGameState {
 		}
 
 	}
+
+	private void setInitialValue() {
+		this.enterFinished = false; // 画面遷移が終わったか
+		this.isSendReady = false; // 開始の合図を既に送ったか
+		this.isSent = false;
+	}
+
+
+
+	private void setInitialField(PlayerServer p[],FieldServer f[][]) {
+		// 対戦毎に必要な初期設定。ここから。
+		Random r = new Random();
+		int color = r.nextInt(4); // 対戦色を得る
+		Setting.ColorTeam1 = common.ColorPair.getColorPair(color)[0];
+		Setting.ColorTeam2 = common.ColorPair.getColorPair(color)[1];
+		for (int i = 0; i < PLAYERNUMBER; i++) {
+			switch (i) { 
+			case 0:
+				p[i] = new PlayerServer(0, 0, Setting.ColorTeam1, 0, Direction.DOWN, ts);
+				break;
+			case 1:
+				p[i] = new PlayerServer(FIELDHEIGHT - 1, 0, Setting.ColorTeam2, 1, Direction.DOWN, ts);
+				break;
+			case 2:
+				p[i] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT - 1, Setting.ColorTeam1, 2, Direction.DOWN,
+						ts);
+				break;
+			case 3:
+				p[i] = new PlayerServer(0, FIELDHEIGHT - 1, Setting.ColorTeam2, 3, Direction.DOWN, ts);
+				break;
+			}
+
+			// player[0] = new PlayerServer(0, 0, Color.Blue, 0,
+			// Direction.DOWN,
+			// ts); // tsが引数にあるのはannouncehumanで自分の死を伝える必要があるため
+			// player[1] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT
+			// - 1,
+			// Color.Green, 1, Direction.UP, ts);
+
+			// player[0].initialX = 0;
+			// player[0].initialY = 0;
+
+			// player[1].initialX = FIELDWIDTH - 1;
+			// player[1].initialY = FIELDHEIGHT - 1;
+
+		}
+
+		for (int y = 0; y < FIELDHEIGHT; y++) {// ここで障害物と無敵エリアを設定する
+			for (int x = 0; x < FIELDHEIGHT; x++) {
+				switch (fieldData[x + y * FIELDWIDTH]) {
+				case 0:
+					f[y][x] = new FieldServer(Status.NOTHING, x, y, ts, Color.Transparent);
+					break;
+				case 1:
+
+					f[y][x] = new FieldServer(Status.BREAKABLE1, x, y, ts, Color.Transparent);
+					break;
+				case 2:
+					f[y][x] = new FieldServer(Status.UNBREAKABLE, x, y, ts, Color.Transparent);
+					break;
+
+				case -1:
+					f[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);// TODO
+					// ちゃんと任意の色への無敵地点とする
+					break;
+				case -2:
+					f[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
+					break;
+				case -3:
+					f[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);
+					break;
+				case -4:
+					f[y][x] = new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
+
+					break;
+
+				}
+			}
+		}
+		ts.announceReady(color); // 準備が整ったらクライアントにゲーム開始の合図 TODO 色のペアは0
+
+	}
+
+
 
 	@Override
 	public int getID() {
