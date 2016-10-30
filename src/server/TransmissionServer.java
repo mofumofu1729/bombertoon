@@ -154,10 +154,10 @@ public class TransmissionServer extends Thread {
 		}
 	}
 
-	// ゲームの開始を伝える（色のペアの番号を送るよ）
-	public void announceReady(int colorPairNum) {
+	// ゲームの開始を伝える（色の組み合わせも送る）
+	public void announceReady(int colorPair) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
-			out[i].println("READY:COLOR:" + colorPairNum);
+			out[i].println("READY:COLOR:" + colorPair);
 			out[i].flush();
 		}
 	}

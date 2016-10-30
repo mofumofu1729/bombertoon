@@ -256,9 +256,12 @@ public class BattleServer extends BasicGameState {
 	private void setInitialField(PlayerServer p[],FieldServer f[][]) {
 		// 対戦毎に必要な初期設定。ここから。
 		Random r = new Random();
-		int color = r.nextInt(4); // 対戦色を得る
-		Setting.ColorTeam1 = common.ColorPair.getColorPair(color)[0];
-		Setting.ColorTeam2 = common.ColorPair.getColorPair(color)[1];
+		int colorPair = r.nextInt(4); // プレイヤー色の組み合わせ
+		
+		// TODO global変数と同じ理由で，下二行staticフィールドじゃなくてローカル変数使うべきだと思われ
+		Setting.ColorTeam1 = common.ColorPair.getColorPair(colorPair)[0];
+		Setting.ColorTeam2 = common.ColorPair.getColorPair(colorPair)[1];
+		
 		for (int i = 0; i < PLAYERNUMBER; i++) {
 			switch (i) { 
 			case 0:
@@ -323,7 +326,8 @@ public class BattleServer extends BasicGameState {
 				}
 			}
 		}
-		ts.announceReady(color); // 準備が整ったらクライアントにゲーム開始の合図 TODO 色のペアは0
+
+		ts.announceReady(colorPair); // クライアントにゲーム開始の合図とプレイヤー色の組み合わせを送る
 
 	}
 
