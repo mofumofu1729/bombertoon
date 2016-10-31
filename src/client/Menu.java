@@ -15,6 +15,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class Menu extends BasicGameState {
 	private final int MODENUMBERS = 4;
+	private final int UPLIMIT = 1;
 	private int state;
 	// private Music bgm;
 
@@ -47,7 +48,7 @@ public class Menu extends BasicGameState {
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		// bgm = new Music("res/takonaguri.ogg");
 
-		decide = 0;
+		decide = UPLIMIT;
 		dsum = 0;
 
 	}
@@ -93,7 +94,7 @@ public class Menu extends BasicGameState {
 			sbg.enterState(nextState, new FadeOutTransition(Color.black, 1000),
 					new FadeInTransition(Color.black, 1000));
 		}
-		if (gc.getInput().isKeyDown(Input.KEY_UP) && (decide > 0) && (dsum >= 200)) {
+		if (gc.getInput().isKeyDown(Input.KEY_UP) && (decide > UPLIMIT) && (dsum >= 200)) {
 			decide--;
 			System.out.println(decide);
 			select.play();
@@ -113,12 +114,14 @@ public class Menu extends BasicGameState {
 		 * break;
 		 */
 		case 0:
+			System.out.println("ここ");
+			break;
 		case 1:
-			nextState = State.MATCHING;
+			nextState = State.MATCHING ;
 
 			break;
 		case 2:
-			nextState = State.CONFIG;
+			nextState = State.CONFIG ;
 
 			break;
 		case 3:
@@ -130,19 +133,19 @@ public class Menu extends BasicGameState {
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		background = new Image("Scene\\menu\\menu.png");
-		oneb = new Image("Scene\\menu\\1on1_0.png");
-		onew = new Image("Scene\\menu\\1on1_2.png");
-		twob = new Image("Scene\\menu\\2on2_1.png");
-		twow = new Image("Scene\\menu\\2on2_2.png");
-		conb = new Image("Scene\\menu\\config_0.png");
-		conw = new Image("Scene\\menu\\config_1.png");
-		creb = new Image("Scene\\menu\\credit_0.png");
-		crew = new Image("Scene\\menu\\credit_1.png");
-		mbar = new Image("Scene\\menu\\menu_bar.png");
-		menu = new Music("BGM/Menu.ogg");
-		select = new Sound("SE\\decide.ogg");
-		decision = new Sound("SE\\menu_decision.ogg");
+		background = new Image("res/client/img/Scene/menu/menu.png");
+		oneb = new Image("res/client/img/Scene/menu/1on1_0.png");
+		onew = new Image("res/client/img/Scene/menu/1on1_2.png");
+		twob = new Image("res/client/img/Scene/menu/2on2_1.png");
+		twow = new Image("res/client/img/Scene/menu/2on2_2.png");
+		conb = new Image("res/client/img/Scene/menu/config_0.png");
+		conw = new Image("res/client/img/Scene/menu/config_1.png");
+		creb = new Image("res/client/img/Scene/menu/credit_0.png");
+		crew = new Image("res/client/img/Scene/menu/credit_1.png");
+		mbar = new Image("res/client/img/Scene/menu/menu_bar.png");
+		menu = new Music("res/client/sound/BGM/Menu.ogg");
+		select = new Sound("res/client/sound/SE/decide.ogg");
+		decision = new Sound("res/client/sound/SE/menu_decision.ogg");
 		menu.play();
 		nextState = State.MATCHING;
 
