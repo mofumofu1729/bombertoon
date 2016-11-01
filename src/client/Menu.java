@@ -59,19 +59,19 @@ public class Menu extends BasicGameState {
 		switch (decide) {
 		case 0:
 			mbar.draw(458, 95);
-			onew.draw(537, 122);
+			onew.draw(537, 125);
 			break;
 		case 1:
 			mbar.draw(458, 145);
-			twow.draw(533, 172);
+			twow.draw(526, 176);
 			break;
 		case 2:
 			mbar.draw(458, 193);
-			conw.draw(528, 222);
+			conw.draw(530, 222);
 			break;
 		case 3:
 			mbar.draw(458, 238);
-			crew.draw(533, 265);
+			crew.draw(537, 263);
 			break;
 		}
 	}
@@ -101,12 +101,11 @@ public class Menu extends BasicGameState {
 			dsum = 0;
 		}
 		switch (decide) {
-		/*1対1が未実装につき選択不可
-		 * case 0:
-		 * nextState = State.MATCHING;
-		 * System.out.println(nextState);
-		 * break;
-		 */
+		/*1対1が未実装につき選択不可*/
+//		 case 0:
+//		 	nextState = State.MATCHING;
+//		 	System.out.println(nextState);
+//		 break;
 		case 0:
 			System.out.println("ここ");
 			break;
