@@ -1,5 +1,7 @@
 package client;
 
+import java.net.ConnectException;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -40,19 +42,15 @@ private Music matchBGM;
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
 		if (ClientStarter.getTransmissionClient() == null) { // tcが作られていなかったら返す
-
-			// TODO debug
-			System.out.println("waiting");
-
 			return;
 		}
 
-		ClientStarter.getTransmissionClient().openConection();
-		
+		try {
+			ClientStarter.getTransmissionClient().openConection();
+		} catch (ConnectException e) {
+			System.err.println("Serverが見つかりません");
+		}
 		if (ClientStarter.getTransmissionClient().isReady()) {
-
-			// TODO debug
-			System.out.println("matchingからbattleへ");
 			matched.play();
 			arg1.enterState(State.GAMECLIENT, new FadeOutTransition(Color.black, 1000),
 					new FadeInTransition(Color.black, 1000));

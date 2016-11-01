@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayDeque;
@@ -46,7 +47,10 @@ public class TransmissionClient {
 	}
 
 	// サーバーに接続
-	public boolean openConection() {		
+	/*
+	 * TODO 例外処理が適当すぎる．例外もきちんと対処出来るようにする
+	 */
+	public boolean openConection() throws ConnectException {		
 		if (isConnected)
 			return true;
 		
@@ -54,6 +58,8 @@ public class TransmissionClient {
 			socket = new Socket(TransmissionClient.hostName, this.portnumber);
 		} catch (UnknownHostException e) {
 			System.err.println("ホストの IP アドレスが判定できません: " + e);
+		} catch (ConnectException e) { // サーバーが立っていない
+			throw e;
 		} catch (IOException e) {
 			System.err.println("エラーが発生しました: " + e);
 		}
