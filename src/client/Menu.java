@@ -17,14 +17,11 @@ public class Menu extends BasicGameState {
 	private final int MODENUMBERS = 4;
 	private final int UPLIMIT = 1;
 	private int state;
-	// private Music bgm;
-
-
 
 	private Image background;
 	private int decide; // 選択される状態
 	private int nextState = State.MATCHING;
-	private int dsum;
+	private int dsum;//入力受付をカウントする変数
 
 	private Image oneb;
 	private Image onew;
@@ -46,11 +43,9 @@ public class Menu extends BasicGameState {
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		// bgm = new Music("res/takonaguri.ogg");
-
+		//初期化
 		decide = UPLIMIT;
 		dsum = 0;
-
 	}
 
 	@Override
@@ -88,7 +83,7 @@ public class Menu extends BasicGameState {
 			menu.stop();
 			decision.play();
 
-			// TODO debug
+			// TODO デバック
 			System.out.println("menuからマッチングへ");
 
 			sbg.enterState(nextState, new FadeOutTransition(Color.black, 1000),
@@ -106,11 +101,10 @@ public class Menu extends BasicGameState {
 			dsum = 0;
 		}
 		switch (decide) {
-		/*
-		 * case 0: nextState = State.MATCHING; System.out.println(nextState);
-		 * break; case 1: nextState = State.MATCHING;
+		/*1対1が未実装につき選択不可
+		 * case 0:
+		 * nextState = State.MATCHING;
 		 * System.out.println(nextState);
-		 *
 		 * break;
 		 */
 		case 0:
@@ -118,21 +112,19 @@ public class Menu extends BasicGameState {
 			break;
 		case 1:
 			nextState = State.MATCHING ;
-
 			break;
 		case 2:
 			nextState = State.CONFIG ;
-
 			break;
 		case 3:
 			nextState = State.CREDIT;
-
 			break;
 		}
 
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		//リソースの読み込み
 		background = new Image("res/client/img/Scene/menu/menu.png");
 		oneb = new Image("res/client/img/Scene/menu/1on1_0.png");
 		onew = new Image("res/client/img/Scene/menu/1on1_2.png");
@@ -146,7 +138,8 @@ public class Menu extends BasicGameState {
 		menu = new Music("res/client/sound/BGM/Menu.ogg");
 		select = new Sound("res/client/sound/SE/decide.ogg");
 		decision = new Sound("res/client/sound/SE/menu_decision.ogg");
-		menu.play();
+
+		menu.loop();
 		nextState = State.MATCHING;
 
 	}
