@@ -111,6 +111,10 @@ public class Result extends BasicGameState {
 		result.loop();
 		tc = ClientStarter.getTransmissionClient();
 		score = ClientStarter.getTransmissionClient().getScore();
+
+		/*
+		 * TODO　勝ち負けで音楽を変える
+		 */
 		if (score.painted[0] > score.painted[1]) {
 			team1 = new Image("res/client/img/Scene/results/WIN.png"); // TODO
 			team2 = new Image("res/client/img/Scene/results/LOSE.png");
