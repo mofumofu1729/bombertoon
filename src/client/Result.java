@@ -121,17 +121,16 @@ re.draw(0, 0);
 		}
 		
 		
-		if (tc.recieveColorPair() == winTeam) {
+		if (tc.recieveTeamNumber() == winTeam) {
 			bgm = new Music("res/client/sound/BGM/resultBGM_win.ogg");
 		} else {
 			bgm = new Music("res/client/sound/BGM/resultBGM_lose.ogg");
 		}
 		
 		// TODO debug
-		System.out.println("tc.recieveColorPair():"+tc.recieveColorPair());
+		System.out.println("tc.recieveTeamNumber() = :"+tc.recieveTeamNumber());
 		System.out.println("winTeam:"+winTeam);
 				
-		
 		// TODO かな？ファイルは何時読み込むべき？
 		bar1 = new Image("res/client/img/Scene/results/bar/" + Setting.ColorTeam1.toString().toLowerCase() + "_bar.png");
 		bar2 = new Image("res/client/img/Scene/results/bar/" + Setting.ColorTeam2.toString().toLowerCase() + "_bar.png");
