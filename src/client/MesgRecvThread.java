@@ -31,10 +31,6 @@ public class MesgRecvThread extends Thread {
 				if (inputLine != null) {
 					int x, y;
 					String[] command = inputLine.split(":");
-
-					// TODO debug
-					// System.out.println("recieved command: " + inputLine);
-
 					switch (command[0]) {
 					case "FIELD":
 						x = Integer.parseInt(command[1]);
@@ -64,9 +60,6 @@ public class MesgRecvThread extends Thread {
 						break;
 					case "READY":
 						tc.setColorPair(Integer.parseInt(command[2]));
-						
-						// TODO debug
-						System.out.println("MesgRecvThread: playerID="+Integer.parseInt(command[4]));
 						tc.setPlayerId(Integer.parseInt(command[4]));
 						tc.setReady();
 						break;

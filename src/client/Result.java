@@ -126,10 +126,6 @@ re.draw(0, 0);
 		} else {
 			bgm = new Music("res/client/sound/BGM/resultBGM_lose.ogg");
 		}
-		
-		// TODO debug
-		System.out.println("tc.recieveTeamNumber() = :"+tc.recieveTeamNumber());
-		System.out.println("winTeam:"+winTeam);
 				
 		// TODO かな？ファイルは何時読み込むべき？
 		bar1 = new Image("res/client/img/Scene/results/bar/" + Setting.ColorTeam1.toString().toLowerCase() + "_bar.png");
@@ -138,10 +134,6 @@ re.draw(0, 0);
 		death = new Image("res/client/img/Scene/results/Death_2.png");
 
 		bgm.loop();
-		
-		// TODO debug
-		// System.out.println("チーム0???? " + score.painted[0]);
-		// System.out.println("チーム1???? " + score.painted[1]);
 	}
 
 	@Override
