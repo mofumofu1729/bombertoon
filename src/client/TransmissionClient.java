@@ -153,6 +153,10 @@ public class TransmissionClient {
 		return playerId;
 	}
 	
+	public int recieveTeamNumber() {
+		return playerId % 2;
+	}
+	
 	public boolean isReady() {
 		return ready;
 	}

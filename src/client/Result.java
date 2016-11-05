@@ -126,6 +126,7 @@ re.draw(0, 0);
 		} else {
 			bgm = new Music("res/client/sound/BGM/resultBGM_lose.ogg");
 		}
+		
 		// TODO debug
 		System.out.println("tc.recieveColorPair():"+tc.recieveColorPair());
 		System.out.println("winTeam:"+winTeam);
