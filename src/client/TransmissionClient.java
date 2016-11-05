@@ -179,8 +179,8 @@ public class TransmissionClient {
 		this.time = time;
 	}
 
-	/*******************追記部分(6/21)**********************/
 	// 成績を受け取る scoreにまだ何も入ってなかったらnull返すよ！
+	// TODO nullはなるべく返さないようにしたい．nullオブジェクトとか使うか
 	public common.Score recieveScore() {
 		if (score == null) {
 			System.err.println("TransmissionClient: warning: score is null");
@@ -210,6 +210,4 @@ public class TransmissionClient {
 	int recieveColorPair() {
 		return this.colorPair;
 	}
-
-	/***************************************************/
 }
