@@ -64,15 +64,11 @@ public class MesgRecvThread extends Thread {
 						break;
 					case "READY":
 						tc.setColorPair(Integer.parseInt(command[2]));
-
+						
 						// TODO debug
-						System.out.println("MesgRecvThread: getColorPairNum:" + Integer.parseInt(command[2]));
-
+						System.out.println("MesgRecvThread: playerID="+Integer.parseInt(command[4]));
+						tc.setPlayerId(Integer.parseInt(command[4]));
 						tc.setReady();
-
-						// TODO debug
-						// System.out.println("GET READY!");
-
 						break;
 					case "FINISH": // 終了
 						tc.setFinish();
@@ -83,8 +79,10 @@ public class MesgRecvThread extends Thread {
 
 						// TODO debug
 						// System.out.println("TIME:" + command[1]);
-
 						break;
+						
+						
+						// TODO tcからgetScoreするのは結合が強くなるのでまずそう
 					case "RESULT": // 結果を送る
 						// TODO debug
 						System.out.println("recieve result:" + inputLine);
@@ -106,8 +104,10 @@ public class MesgRecvThread extends Thread {
 						case "DEATH":
 							tc.getScore().death[Integer.parseInt(command[2])] = Integer.parseInt(command[3]);
 							break;
-
 						}
+						break;
+					default:
+						System.err.println("MesgRecvThread: unknown command");
 						break;
 					}
 

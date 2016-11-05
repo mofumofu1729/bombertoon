@@ -28,26 +28,23 @@ public class Result extends BasicGameState {
 	Image team2;
 	Image kill;
 	Image death;
-	private Music result;
+	private Music bgm;
 
 	public Result(int state) {
 		this.state = state;
 	}
 
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		// TODO 自動生成されたメソッド・スタブ
 		re = new Image("res/client/img/Scene/results/BackGround.png");
 		uf = new UnicodeFont("res/client/font/SHOWG.TTF", 90, false, false);
 		uf2 = new UnicodeFont("res/client/font/SHOWG.TTF", 60, false, false);
 		uf3 = new UnicodeFont("res/client/font/SHOWG.TTF", 32, false, false);
-		result = new Music("res/client/sound/BGM/result.ogg");
+		bgm = new Music("res/client/sound/BGM/result.ogg");
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2) throws SlickException {
-		// TODO 自動生成されたメソッド・スタブ
-
-		re.draw(0, 0);
+re.draw(0, 0);
 		uf.addAsciiGlyphs();
 		uf.getEffects().add(new ColorEffect());
 		uf.loadGlyphs();
@@ -108,47 +105,47 @@ public class Result extends BasicGameState {
 
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-		result.loop();
 		tc = ClientStarter.getTransmissionClient();
 		score = ClientStarter.getTransmissionClient().getScore();
-
-		/*
-		 * TODO　勝ち負けで音楽を変える
-		 */
+		
+		
+		int winTeam = -1;
 		if (score.painted[0] > score.painted[1]) {
 			team1 = new Image("res/client/img/Scene/results/WIN.png"); // TODO
 			team2 = new Image("res/client/img/Scene/results/LOSE.png");
-			// if (tc.recievedHuman().playerID == 0 ||
-			// tc.recievedHuman().playerID == 2) {
-			result = new Music("res/client/sound/BGM/resultBGM_win.ogg");
-			// } else {
-			// result = new Music("res/client/sound/BGM/resultBGM_lose.ogg");
-			// }
-
+			winTeam = 0;
 		} else {
 			team1 = new Image("res/client/img/Scene/results/LOSE.png");
 			team2 = new Image("res/client/img/Scene/results/WIN.png");
-			// if (tc.recievedHuman().playerID == 2 ||
-			// tc.recievedHuman().playerID == 4) {
-			// result = new Music("res/client/sound/BGM/resultBGM_win.ogg");
-			// } else {
-			// result = new Music("res/client/sound/BGM/resultBGM_lose.ogg");
-			// }
+			winTeam = 1;
 		}
-
+		
+		
+		if (tc.recieveColorPair() == winTeam) {
+			bgm = new Music("res/client/sound/BGM/resultBGM_win.ogg");
+		} else {
+			bgm = new Music("res/client/sound/BGM/resultBGM_lose.ogg");
+		}
+		// TODO debug
+		System.out.println("tc.recieveColorPair():"+tc.recieveColorPair());
+		System.out.println("winTeam:"+winTeam);
+				
+		
 		// TODO かな？ファイルは何時読み込むべき？
 		bar1 = new Image("res/client/img/Scene/results/bar/" + Setting.ColorTeam1.toString().toLowerCase() + "_bar.png");
 		bar2 = new Image("res/client/img/Scene/results/bar/" + Setting.ColorTeam2.toString().toLowerCase() + "_bar.png");
 		kill = new Image("res/client/img/Scene/results/kill.png");
 		death = new Image("res/client/img/Scene/results/Death_2.png");
 
-		System.out.println("チーム0???? " + score.painted[0]);
-		System.out.println("チーム1???? " + score.painted[1]);
+		bgm.loop();
+		
+		// TODO debug
+		// System.out.println("チーム0???? " + score.painted[0]);
+		// System.out.println("チーム1???? " + score.painted[1]);
 	}
 
 	@Override
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-		result.stop();
-		// TODO 自動生成されたメソッド・スタブ
+		bgm.stop();
 	}
 }
