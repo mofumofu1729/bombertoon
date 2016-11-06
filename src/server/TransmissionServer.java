@@ -157,7 +157,7 @@ public class TransmissionServer extends Thread {
 	// ゲームの開始を伝える（色の組み合わせも送る）
 	public void announceReady(int colorPair) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
-			out[i].println("READY:COLOR:" + colorPair);
+			out[i].println("READY:COLOR:" + colorPair + ":ID:" + i);
 			out[i].flush();
 		}
 	}
@@ -195,10 +195,10 @@ public class TransmissionServer extends Thread {
 					out[n] = new PrintWriter(incoming[n].getOutputStream(), true);
 
 					out[n].println("CONNECTED"); // 接続完了の合図
-
+					
 					myClientProcThread[n] = new ClientProcThread(this, n, incoming[n], isr[n], in[n], out[n]);// 必要なパラメータを渡しスレッドを作成
 					myClientProcThread[n].start();// スレッドを開始する
-
+			
 					n++;
 					member = n;// メンバーの数を更新する
 

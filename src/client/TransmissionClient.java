@@ -19,7 +19,6 @@ public class TransmissionClient {
 	private boolean isConnected = false; // サーバと接続が確立されたか
 	private boolean isFinish = false; // ゲームが終わったか
 	
-	
 	private Queue<PlayerClient> recievedHumanBuffer;
 	private Queue<FieldClient> recievedFieldBuffer;
 
@@ -30,9 +29,9 @@ public class TransmissionClient {
 	private int portnumber;
 	private Socket socket = null;
 
-	
 	private common.Score score; // 成績
-	private int colorPair;
+	private int colorPair; // 配色
+	private int playerId = -1; // プレイヤー番号
 	
 	public TransmissionClient() {
 		this(hostName, server.TransmissionServer.PORT);
@@ -52,8 +51,7 @@ public class TransmissionClient {
 	 */
 	public boolean openConection() throws ConnectException {		
 		if (isConnected)
-			return true;
-		
+			return true;		
 		try {
 			socket = new Socket(TransmissionClient.hostName, this.portnumber);
 		} catch (UnknownHostException e) {
@@ -63,7 +61,6 @@ public class TransmissionClient {
 		} catch (IOException e) {
 			System.err.println("エラーが発生しました: " + e);
 		}
-		
 		
 		try {
 			out = new PrintWriter(socket.getOutputStream(), true);
@@ -147,17 +144,32 @@ public class TransmissionClient {
 	public boolean recieveFinish() {
 		return isFinish;
 	}
-
+	
+	int recieveColorPair() {
+		return this.colorPair;
+	}
+	
+	public int recievePlayerId() {
+		return playerId;
+	}
+	
+	public int recieveTeamNumber() {
+		return playerId % 2;
+	}
+	
 	public boolean isReady() {
 		return ready;
 	}
+
+	
+	/*
+	 * TODO アクセス修飾子をつける
+	 */
+	// MesgRecvThreadから呼ぶ
 	public void setHostName(String hostName){
 		this.hostName=hostName;
-
-
 	}
 
-	// MesgRecvThreadから呼ぶ
 	void setField(FieldClient field) {
 		recievedFieldBuffer.offer(field);
 	}
@@ -178,16 +190,19 @@ public class TransmissionClient {
 	void setTime(int time) {
 		this.time = time;
 	}
-
-	/*******************追記部分(6/21)**********************/
+	
+	protected void setPlayerId(int playerId) {
+		this.playerId = playerId;
+	}
+	
 	// 成績を受け取る scoreにまだ何も入ってなかったらnull返すよ！
+	// TODO nullはなるべく返さないようにしたい．nullオブジェクトとか使うか
 	public common.Score recieveScore() {
 		if (score == null) {
 			System.err.println("TransmissionClient: warning: score is null");
 		}
 		return score;
 	}
-
 
 	// 内部的に使う
 	void createScore(int playerNum) {
@@ -205,11 +220,4 @@ public class TransmissionClient {
 	void setColorPair(int colorPair) {
 		this.colorPair = colorPair;
 	}
-
-	// 色のペアを返す
-	int recieveColorPair() {
-		return this.colorPair;
-	}
-
-	/***************************************************/
 }

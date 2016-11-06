@@ -13,8 +13,7 @@ import common.Setting;
 //内部処理はこいつの管轄
 public class BattleServer extends BasicGameState {
 	public static final int PLAYERNUMBER = common.Setting.P;
-	// public static final int TIMELIMIT = 60000;
-	public static final int TIMELIMIT = 6000; // 制限時間
+	public static final int TIMELIMIT = 20000; // 制限時間
 	// フィールドサイズ
 	public static final int FIELDHEIGHT = 16;
 	public static final int FIELDWIDTH = 16;

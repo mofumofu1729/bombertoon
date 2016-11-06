@@ -27,9 +27,9 @@ class ClientProcThread extends Thread {
     	try {
 
     		while (true) {//無限ループで，ソケットへの入力を監視する
-    			System.out.println("runnnnnnnnnnnn");
+    			// System.out.println("runnnnnnnnnnnn");
     			String str = myIn.readLine();
-    			 System.out.println("Received from client No."+number+", command: "+str);
+    			System.out.println("Received from client No."+number+", command: "+str);
     			switch (str) {
     			case "RIGHT":
     				ts.setHuman(number, Direction.RIGHT);
@@ -56,7 +56,7 @@ class ClientProcThread extends Thread {
     				ts.setHuman(number, Direction.TURN_DOWN);
     				break;
     			case "BOMB":
-    				System.out.println("cptttttttttttttttttttttttttttttttt");
+    				// System.out.println("cptttttttttttttttttttttttttttttttt");
     				ts.setBomb(number);
     			default:
     				;
