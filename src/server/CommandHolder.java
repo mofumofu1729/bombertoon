@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 
 import common.Score;
 
-public class TransmissionServer extends Thread {
+public class CommandHolder extends Thread {
 	private int member;// 接続しているメンバーの数
 
 	public static final int PORT = 20000;
@@ -26,12 +26,12 @@ public class TransmissionServer extends Thread {
 	private Direction[] direction;
 	private int[] bombs;
 
-	private static TransmissionServer instance;
+	private static CommandHolder instance;
 	
 	private boolean isBattling = false; // 戦闘中かを示す
 
 	// constructor
-	private TransmissionServer() {
+	private CommandHolder() {
 		incoming = new Socket[MAX_PLAYER];
 		isr = new InputStreamReader[MAX_PLAYER];
 		in = new BufferedReader[MAX_PLAYER];
@@ -45,12 +45,12 @@ public class TransmissionServer extends Thread {
 		bombs = new int[MAX_PLAYER];
 	}
 
-	public static TransmissionServer createInstance() {
-		instance = new TransmissionServer();
+	public static CommandHolder createInstance() {
+		instance = new CommandHolder();
 		return instance;
 	}
 	
-	public static TransmissionServer getInstance() {
+	public static CommandHolder getInstance() {
 		if (instance == null)
 			createInstance();
 		return instance;

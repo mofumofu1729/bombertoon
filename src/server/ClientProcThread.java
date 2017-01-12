@@ -12,9 +12,9 @@ class ClientProcThread extends Thread {
     private InputStreamReader myIsr;
     private BufferedReader myIn;
     private PrintWriter myOut;
-    private TransmissionServer ts;
+    private CommandHolder ts;
 
-    public ClientProcThread(TransmissionServer ts, int n, Socket i, InputStreamReader isr, BufferedReader in, PrintWriter out) {
+    public ClientProcThread(CommandHolder ts, int n, Socket i, InputStreamReader isr, BufferedReader in, PrintWriter out) {
     	this.ts = ts;
     	number = n;
     	incoming = i;

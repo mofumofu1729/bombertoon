@@ -15,9 +15,9 @@ public class PlayerServer {
 	Direction dir;// 向き
 	Color team;// 所属のチーム
 	int playerID;// プレーヤーの識別用
-	TransmissionServer ts;
+	CommandHolder ts;
 
-	PlayerServer(int x, int y, Color color, int playerID, Direction dir, TransmissionServer ts) {
+	PlayerServer(int x, int y, Color color, int playerID, Direction dir, CommandHolder ts) {
 		// Todo:コンストラクタの引数を減らせないか
 		this.x = x;
 		this.y = y;

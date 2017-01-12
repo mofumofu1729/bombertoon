@@ -13,9 +13,9 @@ public class FieldServer {// サーバー上のフィールド
 					// !!!!!!!新しい変数!!!!!!!!!
 	int x, y;
 	int points;// フィールド上のマスの得点。まだ実装してない。
-	TransmissionServer ts;
+	CommandHolder ts;
 
-	FieldServer(Status status, int x, int y, TransmissionServer ts, Color color) {// コンストラクタ：状態を格納
+	FieldServer(Status status, int x, int y, CommandHolder ts, Color color) {// コンストラクタ：状態を格納
 		// TODO
 		this.status = status;
 		this.x = x;
