@@ -13,54 +13,55 @@ import common.Score;
 public class CommandHolder extends Thread {
 	private int numberOfConectedPlayer;// 接続しているメンバーの数
 
-	public static final int PORT = 20000;
+	public static final int PORT_NUMBER = 20000;
 	public static final int MAX_BOMB = 3;
 	public static final int MAX_PLAYER = common.Setting.P;
 
-	private Socket[] incoming;// 受付用のソケット
-	private InputStreamReader[] isr;// 入力ストリーム用の配列
-	private BufferedReader[] in;// バッファリングによりテキスト読み込み用の配列
-	private PrintWriter[] out;// 出力ストリーム用の配列
-	private ClientProcThread[] myClientProcThread;// スレッド用の配列
+	private Socket[] incomingSocket;// 受付用のソケット
+	private InputStreamReader[] recievedCommandReaders;// 入力ストリーム用の配列
+	private BufferedReader[] bufferedRecieveCommandReaders;// バッファリングによりテキスト読み込み用の配列
+	private PrintWriter[] commandSendWriters;// 出力ストリーム用の配列
+	private ClientProcThread[] clientProcThreads;// スレッド用の配列
 
-	private Direction[] direction;
-	private int[] bombs;
+	// 受信したコマンドを保持しておくためのバッファ
+	private Direction[] directionBuffer;
+	private int[] bombsBuffer;
 
-	private static CommandHolder instance;
+	private static CommandHolder selfInstance;
 	
 	private boolean isBattling = false; // 戦闘中かを示す
 
 	// constructor
 	private CommandHolder() {
-		incoming = new Socket[MAX_PLAYER];
-		isr = new InputStreamReader[MAX_PLAYER];
-		in = new BufferedReader[MAX_PLAYER];
-		out = new PrintWriter[MAX_PLAYER];
-		myClientProcThread = new ClientProcThread[MAX_PLAYER];
+		incomingSocket = new Socket[MAX_PLAYER];
+		recievedCommandReaders = new InputStreamReader[MAX_PLAYER];
+		bufferedRecieveCommandReaders = new BufferedReader[MAX_PLAYER];
+		commandSendWriters = new PrintWriter[MAX_PLAYER];
+		clientProcThreads = new ClientProcThread[MAX_PLAYER];
 
 		numberOfConectedPlayer = 0;// 誰も接続していないのでメンバー数は０
-		direction = new Direction[MAX_PLAYER]; // ユーザごとのキー入力を保管
+		directionBuffer = new Direction[MAX_PLAYER]; // ユーザごとのキー入力を保管
 		for (int i = 0; i < MAX_PLAYER; i++) // 初期化
-			direction[i] = Direction.NONE;
-		bombs = new int[MAX_PLAYER];
+			directionBuffer[i] = Direction.NONE;
+		bombsBuffer = new int[MAX_PLAYER];
 	}
 
 	public static CommandHolder createInstance() {
-		instance = new CommandHolder();
-		return instance;
+		selfInstance = new CommandHolder();
+		return selfInstance;
 	}
 	
 	public static CommandHolder getInstance() {
-		if (instance == null)
+		if (selfInstance == null)
 			createInstance();
-		return instance;
+		return selfInstance;
 	}
 
 	// check
 	public Direction checkHuman(int playerID) { // IDの人の動きを取得
-		Direction res = direction[playerID];
+		Direction res = directionBuffer[playerID];
 		if (res != Direction.NONE) {
-			direction[playerID] = Direction.NONE;
+			directionBuffer[playerID] = Direction.NONE;
 			// TODO debug
 			System.out.println("checkHuman:" + playerID + ":" + res.name());
 		} else {
@@ -71,10 +72,10 @@ public class CommandHolder extends Thread {
 	}
 
 	public boolean checkBomb(int playerID) {
-		if (bombs[playerID] == 0) {
+		if (bombsBuffer[playerID] == 0) {
 			return false;
 		} else {
-			bombs[playerID]--;
+			bombsBuffer[playerID]--;
 			return true;
 		}
 	}
@@ -82,16 +83,16 @@ public class CommandHolder extends Thread {
 	// announce
 	public void announceHuman(PlayerServer human) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
-			String str;
+			String status;
 			if (human.isDeath()) {
-				str = "DEAD";
+				status = "DEAD";
 			} else {
-				str = "ALIVE";
+				status = "ALIVE";
 			}
 
-			out[i].println(
-					"PLAYER:" + human.playerID + ":" + human.x + ":" + human.y + ":" + human.dir.name() + ":" + str);
-			out[i].flush();// バッファをはき出す＝＞バッファにある全てのデータをすぐに送信する
+			commandSendWriters[i].println(
+					"PLAYER:" + human.playerID + ":" + human.x + ":" + human.y + ":" + human.dir.name() + ":" + status);
+			commandSendWriters[i].flush();// バッファをはき出す＝＞バッファにある全てのデータをすぐに送信する
 		}
 	}
 
@@ -100,12 +101,12 @@ public class CommandHolder extends Thread {
 		System.out.println("ACF");
 		for (int i = 0; i < MAX_PLAYER; i++) {
 			if (field.isExistBomb) { // もしisExistBombがtrueなら
-				out[i].println("FIELD:" + field.x + ":" + field.y + ":" + "BOMB" + ":" + field.color.name());
+				commandSendWriters[i].println("FIELD:" + field.x + ":" + field.y + ":" + "BOMB" + ":" + field.color.name());
 			} else {
-				out[i].println(
+				commandSendWriters[i].println(
 						"FIELD:" + field.x + ":" + field.y + ":" + field.status.name() + ":" + field.color.name());
 			}
-			out[i].flush();// バッファをはき出す＝＞バッファにある全てのデータをすぐに送信する
+			commandSendWriters[i].flush();// バッファをはき出す＝＞バッファにある全てのデータをすぐに送信する
 		}
 	}
 
@@ -113,16 +114,16 @@ public class CommandHolder extends Thread {
 	// ゲームの（残り）時間を告知
 	public void announceTime(int time) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
-			out[i].println("TIME:" + time);
-			out[i].flush();// バッファをはき出す＝＞バッファにある全てのデータをすぐに送信する
+			commandSendWriters[i].println("TIME:" + time);
+			commandSendWriters[i].flush();// バッファをはき出す＝＞バッファにある全てのデータをすぐに送信する
 		}
 	}
 
 	// ゲームの終了を伝える
 	public void announceFinish() {
 		for (int i = 0; i < MAX_PLAYER; i++) {
-			out[i].println("FINISH");
-			out[i].flush();
+			commandSendWriters[i].println("FINISH");
+			commandSendWriters[i].flush();
 		}
 	}
 
@@ -139,26 +140,26 @@ public class CommandHolder extends Thread {
 			System.out.println("in ts: score null?+" + score);
 
 			// プレイヤー数を送る
-			out[i].println("RESULT:PLAYERNUM:" + score.playerNum);
-			out[i].flush();
+			commandSendWriters[i].println("RESULT:PLAYERNUM:" + score.playerNum);
+			commandSendWriters[i].flush();
 
 			// 塗られたフィールド数を送る
 			for (int j = 0; j < score.teamNum; j++)
-				out[i].println("RESULT:FIELD:" + j + ":" + score.painted[j]);
+				commandSendWriters[i].println("RESULT:FIELD:" + j + ":" + score.painted[j]);
 			// キル数，デス数を送る
 			for (int j = 0; j < score.playerNum; j++) {
-				out[i].println("RESULT:KILL:" + j + ":" + score.kill[j]);
-				out[i].println("RESULT:DEATH:" + j + ":" + score.death[j]);
+				commandSendWriters[i].println("RESULT:KILL:" + j + ":" + score.kill[j]);
+				commandSendWriters[i].println("RESULT:DEATH:" + j + ":" + score.death[j]);
 			}
-			out[i].flush();
+			commandSendWriters[i].flush();
 		}
 	}
 
 	// ゲームの開始を伝える（色の組み合わせも送る）
 	public void announceReady(int colorPair) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
-			out[i].println("READY:COLOR:" + colorPair + ":ID:" + i);
-			out[i].flush();
+			commandSendWriters[i].println("READY:COLOR:" + colorPair + ":ID:" + i);
+			commandSendWriters[i].flush();
 		}
 	}
 
@@ -168,7 +169,7 @@ public class CommandHolder extends Thread {
 		isBattling = false;
 		Socket socket;
 		try {
-			socket = new Socket("127.0.0.1",PORT); // 追い返そうと待機しているサーバに接続
+			socket = new Socket("127.0.0.1",PORT_NUMBER); // 追い返そうと待機しているサーバに接続
 			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -182,22 +183,22 @@ public class CommandHolder extends Thread {
 		int n = 0;
 
 		try {
-			ServerSocket server = new ServerSocket(PORT); // サーバ起動
+			ServerSocket server = new ServerSocket(PORT_NUMBER); // サーバ起動
 			System.out.println("The server has launched!");
 				// 待ち受け
 				while (true) {
-					incoming[n] = server.accept(); // 接続要求をを待ち続ける
+					incomingSocket[n] = server.accept(); // 接続要求をを待ち続ける
 					System.out.println("Accept client No." + n);
 
 					// 必要な入出力ストリームを作成する
-					isr[n] = new InputStreamReader(incoming[n].getInputStream());
-					in[n] = new BufferedReader(isr[n]);
-					out[n] = new PrintWriter(incoming[n].getOutputStream(), true);
+					recievedCommandReaders[n] = new InputStreamReader(incomingSocket[n].getInputStream());
+					bufferedRecieveCommandReaders[n] = new BufferedReader(recievedCommandReaders[n]);
+					commandSendWriters[n] = new PrintWriter(incomingSocket[n].getOutputStream(), true);
 
-					out[n].println("CONNECTED"); // 接続完了の合図
+					commandSendWriters[n].println("CONNECTED"); // 接続完了の合図
 					
-					myClientProcThread[n] = new ClientProcThread(this, n, incoming[n], isr[n], in[n], out[n]);// 必要なパラメータを渡しスレッドを作成
-					myClientProcThread[n].start();// スレッドを開始する
+					clientProcThreads[n] = new ClientProcThread(this, n, incomingSocket[n], recievedCommandReaders[n], bufferedRecieveCommandReaders[n], commandSendWriters[n]);// 必要なパラメータを渡しスレッドを作成
+					clientProcThreads[n].start();// スレッドを開始する
 			
 					n++;
 					numberOfConectedPlayer = n;// メンバーの数を更新する
@@ -234,11 +235,11 @@ public class CommandHolder extends Thread {
 		// TODO debug
 		System.out.println("setHuman:" + playerID + ":" + dir.name());
 
-		direction[playerID] = dir;
+		directionBuffer[playerID] = dir;
 	}
 
 	void setBomb(int playerID) {
-		bombs[playerID]++;
+		bombsBuffer[playerID]++;
 	}
 	
 	
