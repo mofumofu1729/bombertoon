@@ -11,17 +11,17 @@ import java.net.UnknownHostException;
 import common.Score;
 
 public class CommandHolder extends Thread {
-	private int numberOfConectedPlayer;// 接続しているメンバーの数
+	private int numberOfConectedPlayer;
 
 	public static final int PORT_NUMBER = 20000;
 	public static final int MAX_BOMB = 3;
-	public static final int MAX_PLAYER = common.Setting.P;
+	public static final int MAX_PLAYER = common.Setting.P; // TODO clientとserverでクラスを共有するのはどうなんだろうか
 
 	private Socket[] incomingSocket;// 受付用のソケット
-	private InputStreamReader[] recievedCommandReaders;// 入力ストリーム用の配列
-	private BufferedReader[] bufferedRecieveCommandReaders;// バッファリングによりテキスト読み込み用の配列
-	private PrintWriter[] commandSendWriters;// 出力ストリーム用の配列
-	private ClientProcThread[] clientProcThreads;// スレッド用の配列
+	private InputStreamReader[] recievedCommandReaders;// クライアントからのコマンドを受信
+	private BufferedReader[] bufferedRecieveCommandReaders;
+	private PrintWriter[] commandSendWriters;// クライアントへのコマンドを送信する
+	private ClientProcThread[] clientProcThreads;// クライアントからのコマンドを待ち受け
 
 	// 受信したコマンドを保持しておくためのバッファ
 	private Direction[] directionBuffer;
@@ -29,9 +29,8 @@ public class CommandHolder extends Thread {
 
 	private static CommandHolder selfInstance;
 	
-	private boolean isBattling = false; // 戦闘中かを示す
+	private boolean isBattling = false;
 
-	// constructor
 	private CommandHolder() {
 		incomingSocket = new Socket[MAX_PLAYER];
 		recievedCommandReaders = new InputStreamReader[MAX_PLAYER];
@@ -39,10 +38,11 @@ public class CommandHolder extends Thread {
 		commandSendWriters = new PrintWriter[MAX_PLAYER];
 		clientProcThreads = new ClientProcThread[MAX_PLAYER];
 
-		numberOfConectedPlayer = 0;// 誰も接続していないのでメンバー数は０
-		directionBuffer = new Direction[MAX_PLAYER]; // ユーザごとのキー入力を保管
-		for (int i = 0; i < MAX_PLAYER; i++) // 初期化
+		numberOfConectedPlayer = 0;
+		directionBuffer = new Direction[MAX_PLAYER];
+		for (int i = 0; i < MAX_PLAYER; i++) {
 			directionBuffer[i] = Direction.NONE;
+		}
 		bombsBuffer = new int[MAX_PLAYER];
 	}
 
@@ -132,7 +132,6 @@ public class CommandHolder extends Thread {
 		return isBattling;
 	}
 
-	/******************************* 追記部分(6/21) ***********************/
 	// 成績を送る
 	public void annouceScore(Score score) {
 		for (int i = 0; i < MAX_PLAYER; i++) {
@@ -163,7 +162,6 @@ public class CommandHolder extends Thread {
 		}
 	}
 
-
 	// ゲームを終了させる
 	public void finishGame()  {
 		isBattling = false;
@@ -174,10 +172,7 @@ public class CommandHolder extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-		
-		
 	}
-	
 	
 	public void run() {
 		int n = 0;
@@ -241,7 +236,4 @@ public class CommandHolder extends Thread {
 	void setBomb(int playerID) {
 		bombsBuffer[playerID]++;
 	}
-	
-	
-
 }
