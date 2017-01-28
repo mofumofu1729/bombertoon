@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 import common.Score;
 
 public class CommandHolder extends Thread {
-	private int member;// 接続しているメンバーの数
+	private int numberOfConectedPlayer;// 接続しているメンバーの数
 
 	public static final int PORT = 20000;
 	public static final int MAX_BOMB = 3;
@@ -38,7 +38,7 @@ public class CommandHolder extends Thread {
 		out = new PrintWriter[MAX_PLAYER];
 		myClientProcThread = new ClientProcThread[MAX_PLAYER];
 
-		member = 0;// 誰も接続していないのでメンバー数は０
+		numberOfConectedPlayer = 0;// 誰も接続していないのでメンバー数は０
 		direction = new Direction[MAX_PLAYER]; // ユーザごとのキー入力を保管
 		for (int i = 0; i < MAX_PLAYER; i++) // 初期化
 			direction[i] = Direction.NONE;
@@ -200,9 +200,9 @@ public class CommandHolder extends Thread {
 					myClientProcThread[n].start();// スレッドを開始する
 			
 					n++;
-					member = n;// メンバーの数を更新する
+					numberOfConectedPlayer = n;// メンバーの数を更新する
 
-					if (member == MAX_PLAYER) { // 人数が揃ったら開始
+					if (numberOfConectedPlayer == MAX_PLAYER) { // 人数が揃ったら開始
 						isBattling = true;
 						break;
 					}
