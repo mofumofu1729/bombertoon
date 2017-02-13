@@ -13,7 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class Menu extends BasicGameState {
+public class SceneMenu extends BasicGameState {
 	private final int MODENUMBERS = 4;
 	private final int UPLIMIT = 1;
 	private int state;
@@ -37,7 +37,7 @@ public class Menu extends BasicGameState {
 	private Sound select;
 	private Sound decision;
 
-	Menu(int state) {
+	SceneMenu(int state) {
 		this.state = state;
 	}
 

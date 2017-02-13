@@ -13,13 +13,13 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class Top extends BasicGameState {
+public class SceneTop extends BasicGameState {
 	int state;
 	Music bgm;
 	Image back,button,logo;
 	Sound entered;
 	private int timer1=1000,timer2=250;
-	Top(int state) {
+	SceneTop(int state) {
 		this.state = state;
 	}
 

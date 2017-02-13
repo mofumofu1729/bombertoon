@@ -11,11 +11,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class Credit extends BasicGameState {
+public class SceneCredit extends BasicGameState {
 	private int state;
 	Image credit_image;
 	// private Music credit;
-	Credit (int state) {
+	SceneCredit (int state) {
 		this.state = state;
 	}
 

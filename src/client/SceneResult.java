@@ -14,7 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import common.Score;
 import common.Setting;
 
-public class Result extends BasicGameState {
+public class SceneResult extends BasicGameState {
 	private int state;
 	Image re;
 	UnicodeFont uf;
@@ -30,7 +30,7 @@ public class Result extends BasicGameState {
 	Image death;
 	private Music bgm;
 
-	public Result(int state) {
+	public SceneResult(int state) {
 		this.state = state;
 	}
 

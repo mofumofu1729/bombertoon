@@ -14,14 +14,14 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class Matching extends BasicGameState {
+public class SceneMatching extends BasicGameState {
 	private int state;
 	private Image match;
 private Music matchBGM;
 	private Sound matched;
 	// private static TransmissionClient tc; // 一つのクライアントで一つの送信機
 
-	Matching(int state) {
+	SceneMatching(int state) {
 		this.state = state;
 	}
 

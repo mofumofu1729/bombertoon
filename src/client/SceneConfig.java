@@ -15,7 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-public class Config extends BasicGameState {
+public class SceneConfig extends BasicGameState {
 	private int state;
 	Image conPicture;
 	Image register;
@@ -26,7 +26,7 @@ public class Config extends BasicGameState {
 	boolean pushed=false;
 	private Sound decision;
 	int timer;
-	Config(int state) {
+	SceneConfig(int state) {
 		this.state = state;
 	}
 

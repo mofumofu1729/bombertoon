@@ -13,14 +13,14 @@ public class ClientStarter extends StateBasedGame {
 
 	public ClientStarter(String name) throws IOException {
 		super(name);
-		this.addState(new GameClient(State.GAMECLIENT));
-		this.addState(new Top(State.TOP));
-		this.addState(new Result(State.RESULT));
+		this.addState(new SceneGame(State.GAMECLIENT));
+		this.addState(new SceneTop(State.TOP));
+		this.addState(new SceneResult(State.RESULT));
 
-		this.addState(new Menu(State.MENU));
-		this.addState(new Config(State.CONFIG));
-		this.addState(new Credit(State.CREDIT));
-		this.addState(new Matching(State.MATCHING));
+		this.addState(new SceneMenu(State.MENU));
+		this.addState(new SceneConfig(State.CONFIG));
+		this.addState(new SceneCredit(State.CREDIT));
+		this.addState(new SceneMatching(State.MATCHING));
 		this.addState(new Rating(State.RATING));
 	}
 

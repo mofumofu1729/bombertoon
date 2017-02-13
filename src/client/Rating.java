@@ -8,30 +8,33 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Rating extends BasicGameState {
 	private int state;
-	
 	Rating(int state) {
 		this.state = state;
 	}
-	
+
+
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
 		// TODO 自動生成されたメソッド・スタブ
-		
+
+
 	}
+
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
 			throws SlickException {
 		// TODO 自動生成されたメソッド・スタブ
-		
+
+
 	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
 		// TODO 自動生成されたメソッド・スタブ
-		
+
 	}
 
 	@Override
