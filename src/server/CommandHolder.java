@@ -17,8 +17,8 @@ public class CommandHolder extends Thread {
 	public static final int MAX_BOMB = 3;
 	public static final int MAX_PLAYER = common.Setting.P; // TODO clientとserverでクラスを共有するのはどうなんだろうか
 
-	private Socket[] incomingSocket;// 受付用のソケット
-	private InputStreamReader[] recievedCommandReaders;// クライアントからのコマンドを受信
+	private Socket[] incomingSocket;
+	private InputStreamReader[] recievedCommandReaders;
 	private BufferedReader[] bufferedRecieveCommandReaders;
 	private PrintWriter[] commandSendWriters;// クライアントへのコマンドを送信する
 	private ClientProcThread[] clientProcThreads;// クライアントからのコマンドを待ち受け
@@ -193,10 +193,10 @@ public class CommandHolder extends Thread {
 					commandSendWriters[n].println("CONNECTED"); // 接続完了の合図
 					
 					clientProcThreads[n] = new ClientProcThread(this, n, incomingSocket[n], recievedCommandReaders[n], bufferedRecieveCommandReaders[n], commandSendWriters[n]);// 必要なパラメータを渡しスレッドを作成
-					clientProcThreads[n].start();// スレッドを開始する
+					clientProcThreads[n].start();
 			
 					n++;
-					numberOfConectedPlayer = n;// メンバーの数を更新する
+					numberOfConectedPlayer = n;
 
 					if (numberOfConectedPlayer == MAX_PLAYER) { // 人数が揃ったら開始
 						isBattling = true;
