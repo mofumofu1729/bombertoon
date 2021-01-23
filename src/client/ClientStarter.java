@@ -7,6 +7,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * クライアントアプリケーションのエントリーポイントを含むクラスです．
+ */
 public class ClientStarter extends StateBasedGame {
 	public final static int FPS = 60;
 	private static TransmissionClient tc; // 一つのクライアントで一つの送信機
