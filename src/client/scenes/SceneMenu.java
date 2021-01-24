@@ -1,4 +1,4 @@
-package client;
+package client.scenes;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -12,6 +12,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import client.State;
 
 public class SceneMenu extends BasicGameState {
 	private final int MODENUMBERS = 4;
@@ -37,7 +39,8 @@ public class SceneMenu extends BasicGameState {
 	private Sound select;
 	private Sound decision;
 
-	SceneMenu(int state) {
+
+	public SceneMenu(int state) {
 		this.state = state;
 	}
 
