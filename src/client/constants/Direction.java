@@ -1,4 +1,4 @@
-package client.enums;
+package client.constants;
 
 
 public enum Direction {

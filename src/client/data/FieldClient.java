@@ -1,6 +1,6 @@
 package client.data;
 
-import client.enums.Status;
+import client.constants.Status;
 import server.Color;
 
 public class FieldClient {

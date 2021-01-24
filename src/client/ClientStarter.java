@@ -7,7 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import client.enums.State;
+import client.constants.State;
 import client.network.TransmissionClient;
 import client.scenes.Rating;
 import client.scenes.SceneConfig;

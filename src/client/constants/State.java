@@ -1,4 +1,4 @@
-package client.enums;
+package client.constants;
 
 public class State {
 	public static final int GAMECLIENT = 0; // 名前変更しました！！！

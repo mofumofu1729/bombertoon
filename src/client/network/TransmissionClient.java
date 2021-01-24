@@ -10,9 +10,9 @@ import java.net.UnknownHostException;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+import client.constants.Direction;
 import client.data.FieldClient;
 import client.data.PlayerClient;
-import client.enums.Direction;
 import common.Setting;
 
 public class TransmissionClient {

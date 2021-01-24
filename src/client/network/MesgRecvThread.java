@@ -6,10 +6,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import client.constants.Direction;
+import client.constants.Status;
 import client.data.FieldClient;
 import client.data.PlayerClient;
-import client.enums.Direction;
-import client.enums.Status;
 import server.Color;
 
 //メッセージ受信のためのスレッド
