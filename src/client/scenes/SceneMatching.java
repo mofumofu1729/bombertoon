@@ -1,4 +1,4 @@
-package client;
+package client.scenes;
 
 import java.net.ConnectException;
 
@@ -14,14 +14,18 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import client.ClientStarter;
+import client.State;
+
 public class SceneMatching extends BasicGameState {
 	private int state;
 	private Image match;
-private Music matchBGM;
+	private Music matchBGM;
 	private Sound matched;
 	// private static TransmissionClient tc; // 一つのクライアントで一つの送信機
 
-	SceneMatching(int state) {
+
+	public SceneMatching(int state) {
 		this.state = state;
 	}
 
