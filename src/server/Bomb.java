@@ -1,10 +1,9 @@
 package server;
 
 import java.util.ArrayList;
-
 import server.constants.Color;
 
-class Bomb {
+public class Bomb {
 	int playerID;
 	private Color color;
 	public int explosionCount;
@@ -18,7 +17,7 @@ class Bomb {
 	ArrayList<Postion> pList;
 	Postion tempP;
 
-	Bomb(int id, Color c, int x, int y) {
+    public Bomb(int id, Color c, int x, int y) {
 
 		playerID = id;
 		color = c;

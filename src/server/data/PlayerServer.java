@@ -1,5 +1,9 @@
-package server;
+package server.data;
 
+import server.BattleServer;
+import server.Bomb;
+import server.FieldServer;
+import server.TransmissionServer;
 import server.constants.Color;
 import server.constants.Direction;
 import server.constants.Status;
@@ -8,20 +12,21 @@ public class PlayerServer {
 	/*
 	 * 作成日 6/1 作成者 道券裕二 // ただしのちに更に色々変更あり
 	 */
-	int killTimes;// キル数
-	int deathTimes;// デス数
-	int bombCount;// 置いたボムの数
-	int x, y;// 座標
+    public int killTimes;// キル数
+    public int deathTimes;// デス数
+    public int bombCount;// 置いたボムの数
+    public int x, y;// 座標
 	int initialX, initialY; // 復活座標
 
-	boolean death;// 死亡状態
-	int rebornCount;// 復活までの
-	Direction dir;// 向き
+    public boolean death;// 死亡状態
+    public int rebornCount;// 復活までの
+    public Direction dir;// 向き
 	Color team;// 所属のチーム
-	int playerID;// プレーヤーの識別用
+    public int playerID;// プレーヤーの識別用
 	TransmissionServer ts;
 
-	PlayerServer(int x, int y, Color color, int playerID, Direction dir, TransmissionServer ts) {
+    public PlayerServer(int x, int y, Color color, int playerID, Direction dir,
+            TransmissionServer ts) {
 		// Todo:コンストラクタの引数を減らせないか
 		this.x = x;
 		this.y = y;
@@ -59,7 +64,7 @@ public class PlayerServer {
 			if (xTmp >= 0 && xTmp < BattleServer.FIELDWIDTH && yTmp >= 0 && yTmp < BattleServer.FIELDHEIGHT
 					&& !(field[yTmp][xTmp].isExistBomb) && !(field[yTmp][xTmp].isExistHuman)
 					&& (field[yTmp][xTmp].status) == Status.NOTHING) {
-				field[yTmp][xTmp].bomb = new Bomb(playerID, team, x, y);
+                field[yTmp][xTmp].bomb = new Bomb(playerID, team, x, y);
 				field[yTmp][xTmp].isExistBomb = true;
 				bombCount++;
 				ts.announceChangeField(field[yTmp][xTmp]);

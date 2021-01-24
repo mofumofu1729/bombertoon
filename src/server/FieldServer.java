@@ -4,12 +4,13 @@ import common.Setting;
 import server.constants.Color;
 import server.constants.Status;
 
-public class FieldServer {// サーバー上のフィールド
-	Color color;
-	Status status;
-	Bomb bomb;
-	boolean isExistBomb;
-	boolean isExistHuman;
+// サーバー上のフィールド
+public class FieldServer {
+    public Color color;
+    public Status status;
+    public Bomb bomb;
+    public boolean isExistBomb;
+    public boolean isExistHuman;
 	boolean isFireSource; // 火元かどうかを判別→爆発を消す際に使用!!!!!!!新しい変数!!!!!!!!!
 	int explodeID;// 爆発させた奴のID
 					// !!!!!!!新しい変数!!!!!!!!!
@@ -17,7 +18,7 @@ public class FieldServer {// サーバー上のフィールド
 	int points;// フィールド上のマスの得点。まだ実装してない。
 	TransmissionServer ts;
 
-	FieldServer(Status status, int x, int y, TransmissionServer ts, Color color) {// コンストラクタ：状態を格納
+    public FieldServer(Status status, int x, int y, TransmissionServer ts, Color color) {// コンストラクタ：状態を格納
 		// TODO
 		this.status = status;
 		this.x = x;
