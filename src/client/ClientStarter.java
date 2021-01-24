@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import client.scenes.Rating;
+import client.scenes.SceneConfig;
 import client.scenes.SceneCredit;
 import client.scenes.SceneMatching;
 import client.scenes.SceneMenu;

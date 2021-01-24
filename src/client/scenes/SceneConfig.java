@@ -1,4 +1,4 @@
-package client;
+package client.scenes;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -15,6 +15,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import client.State;
+import client.TransmissionClient;
+
 public class SceneConfig extends BasicGameState {
 	private int state;
 	Image conPicture;
@@ -26,7 +29,9 @@ public class SceneConfig extends BasicGameState {
 	boolean pushed=false;
 	private Sound decision;
 	int timer;
-	SceneConfig(int state) {
+
+
+	public SceneConfig(int state) {
 		this.state = state;
 	}
 

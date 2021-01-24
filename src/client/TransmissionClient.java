@@ -13,6 +13,9 @@ import java.util.Queue;
 import common.Setting;
 
 public class TransmissionClient {
+	public static String hostName = "localhost"; // TODO Config.update()から参照されている staticでやるのはあまり良くない
+	public static final int MAX_PLAYER = Setting.P; // プレイヤーの人数	
+
 	private PrintWriter out;// 出力用のライター
 	
 	private boolean ready = false; // サーバー側でゲームを開始する準備ができたか
@@ -22,17 +25,15 @@ public class TransmissionClient {
 	private Queue<PlayerClient> recievedHumanBuffer;
 	private Queue<FieldClient> recievedFieldBuffer;
 
-	public static final int MAX_PLAYER = Setting.P; // プレイヤーの人数	
 	private int time; // 経過時間か何か
-	
-	static String hostName="localhost"; // TODO Config.update()から参照されている staticでやるのはあまり良くない
 	private int portnumber;
 	private Socket socket = null;
 
 	private common.Score score; // 成績
 	private int colorPair; // 配色
 	private int playerId = -1; // プレイヤー番号
-	
+
+
 	public TransmissionClient() {
 		this(hostName, server.TransmissionServer.PORT);
 	}
