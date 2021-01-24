@@ -1,4 +1,6 @@
-package client;
+package client.data;
+
+import client.enums.Direction;
 
 public class PlayerClient {
 	public int playerID;
