@@ -1,4 +1,4 @@
-package client;
+package client.scenes;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -11,11 +11,14 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import client.State;
+
 public class SceneCredit extends BasicGameState {
 	private int state;
 	Image credit_image;
-	// private Music credit;
-	SceneCredit (int state) {
+
+
+	public SceneCredit (int state) {
 		this.state = state;
 	}
 
