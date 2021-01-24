@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+import client.enums.Direction;
 import common.Setting;
 
 public class TransmissionClient {

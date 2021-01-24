@@ -13,7 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import client.State;
+import client.enums.State;
 
 public class SceneMenu extends BasicGameState {
 	private final int MODENUMBERS = 4;

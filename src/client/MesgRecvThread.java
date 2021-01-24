@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import client.enums.Direction;
+import client.enums.Status;
 import server.Color;
 
 //メッセージ受信のためのスレッド

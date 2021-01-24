@@ -12,8 +12,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import client.ClientStarter;
-import client.State;
 import client.TransmissionClient;
+import client.enums.State;
 import common.Score;
 import common.Setting;
 
