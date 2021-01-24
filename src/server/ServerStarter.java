@@ -7,6 +7,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import server.constants.State;
+
 public class ServerStarter extends StateBasedGame {
 	public final static int FPS = 60;
 

@@ -1,4 +1,4 @@
-package server;
+package server.constants;
 
 
 public enum Direction {

@@ -9,6 +9,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import common.Setting;
+import server.constants.Color;
+import server.constants.Direction;
+import server.constants.State;
+import server.constants.Status;
 //TODO マッチングと対戦とリザルトがくっついているからそれをバラけさせる
 //内部処理はこいつの管轄
 public class BattleServer extends BasicGameState {

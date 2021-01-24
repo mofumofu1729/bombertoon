@@ -2,6 +2,8 @@ package server;
 
 import java.util.ArrayList;
 
+import server.constants.Color;
+
 class Bomb {
 	int playerID;
 	private Color color;

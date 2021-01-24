@@ -1,6 +1,6 @@
 package common;
 
-import server.Color; // TODO このimportは，Colorがどこにあるかわからないし，依存が生じるので良くない
+import server.constants.Color;
 
 public class Setting {
 	public static final int P = 4;

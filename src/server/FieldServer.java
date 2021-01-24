@@ -1,6 +1,8 @@
 package server;
 
 import common.Setting;
+import server.constants.Color;
+import server.constants.Status;
 
 public class FieldServer {// サーバー上のフィールド
 	Color color;

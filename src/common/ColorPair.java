@@ -1,6 +1,6 @@
 package common;
 
-import server.Color;
+import server.constants.Color;
 
 public class ColorPair {
 	static public Color[] getColorPair (int getNumber){

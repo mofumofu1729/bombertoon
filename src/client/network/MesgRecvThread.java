@@ -10,7 +10,7 @@ import client.constants.Direction;
 import client.constants.Status;
 import client.data.FieldClient;
 import client.data.PlayerClient;
-import server.Color;
+import server.constants.Color;
 
 //メッセージ受信のためのスレッド
 public class MesgRecvThread extends Thread {

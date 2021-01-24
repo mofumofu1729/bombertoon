@@ -1,4 +1,4 @@
-package server;
+package server.constants;
 
 public class State {
 	//public static final int SERVERSTARTER = 0;

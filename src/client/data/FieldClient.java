@@ -1,7 +1,7 @@
 package client.data;
 
 import client.constants.Status;
-import server.Color;
+import server.constants.Color;
 
 public class FieldClient {
 	public int x;

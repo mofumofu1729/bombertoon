@@ -1,4 +1,4 @@
-package server;
+package server.constants;
 
 public enum Color { // このクラスにプレイヤー色振り分けの責務をもたせるといいかも
 	Transparent, //透明→インクを塗っていない状態

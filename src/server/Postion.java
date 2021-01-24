@@ -4,6 +4,8 @@ package server;
 //ArrayListを使うために必要
 import java.util.ArrayList;
 
+import server.constants.Status;
+
 public class Postion {
 	int x, y;// 初期位置
 

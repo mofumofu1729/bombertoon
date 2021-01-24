@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import common.Score;
+import server.constants.Direction;
 
 public class TransmissionServer extends Thread {
 	private int member;// 接続しているメンバーの数
