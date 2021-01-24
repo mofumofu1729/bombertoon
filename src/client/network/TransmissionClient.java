@@ -1,4 +1,4 @@
-package client;
+package client.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -174,28 +174,28 @@ public class TransmissionClient {
 		this.hostName=hostName;
 	}
 
-	void setField(FieldClient field) {
+	public void setField(FieldClient field) {
 		recievedFieldBuffer.offer(field);
 	}
 
-	void setHuman(PlayerClient human) {
+	public void setHuman(PlayerClient human) {
 		recievedHumanBuffer.offer(human);
 	}
 
-	void setReady() {
+	public void setReady() {
 		ready = true;
 	}
 
-	void setFinish() {
+	public void setFinish() {
 		isFinish = true;
 		closeConnection(); // ここで接続を切る
 	}
 
-	void setTime(int time) {
+	public void setTime(int time) {
 		this.time = time;
 	}
 	
-	protected void setPlayerId(int playerId) {
+	public void setPlayerId(int playerId) {
 		this.playerId = playerId;
 	}
 	
@@ -208,8 +208,7 @@ public class TransmissionClient {
 		return score;
 	}
 
-	// 内部的に使う
-	void createScore(int playerNum) {
+	public void createScore(int playerNum) {
 		score = new common.Score(playerNum);
 	}
 
@@ -221,7 +220,7 @@ public class TransmissionClient {
 		return score;
 	}
 
-	void setColorPair(int colorPair) {
+	public void setColorPair(int colorPair) {
 		this.colorPair = colorPair;
 	}
 }

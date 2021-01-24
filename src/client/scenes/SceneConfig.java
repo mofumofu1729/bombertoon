@@ -15,8 +15,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import client.TransmissionClient;
 import client.enums.State;
+import client.network.TransmissionClient;
 
 public class SceneConfig extends BasicGameState {
 	private int state;
