@@ -1,4 +1,4 @@
-package client;
+package client.scenes;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -13,13 +13,17 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import client.State;
+
 public class SceneTop extends BasicGameState {
 	int state;
 	Music bgm;
 	Image back,button,logo;
 	Sound entered;
 	private int timer1=1000,timer2=250;
-	SceneTop(int state) {
+
+
+	public SceneTop(int state) {
 		this.state = state;
 	}
 
