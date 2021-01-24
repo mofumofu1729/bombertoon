@@ -26,7 +26,7 @@ public class BattleServer extends BasicGameState {
 	int gameTimer;// ゲーム自体の残り時間
 	public PlayerServer[] player;
 	FieldServer[][] field;
-	private TransmissionServer ts; 
+	private CommandHolder ts; 
 	int timeLeft;
 	int team1Point;
 	int team2Point;
@@ -220,7 +220,7 @@ public class BattleServer extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 
 		fieldData = Setting.STAGE4TWO; // フィールドのパラメータ
-		ts = TransmissionServer.getInstance();
+		ts = CommandHolder.getInstance();
 		gameTimer = TIMELIMIT;
 
 		player = new PlayerServer[PLAYERNUMBER];

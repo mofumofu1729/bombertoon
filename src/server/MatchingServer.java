@@ -13,7 +13,7 @@ public class MatchingServer extends BasicGameState {
 	private boolean enterFinished = false; // MatchingServerへの画面遷移が完了したか
 	private boolean isSendReady = false;
 	private int state;
-	private TransmissionServer ts;
+	private CommandHolder ts;
 	
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
@@ -70,7 +70,7 @@ public class MatchingServer extends BasicGameState {
 		// debug
 		System.out.println("enter MachingServer");
 		
-		ts = TransmissionServer.createInstance();
+		ts = CommandHolder.createInstance();
 		ts.start();
 		enterFinished = true;
 	}

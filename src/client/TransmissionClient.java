@@ -34,7 +34,7 @@ public class TransmissionClient {
 	private int playerId = -1; // プレイヤー番号
 	
 	public TransmissionClient() {
-		this(hostName, server.TransmissionServer.PORT);
+		this(hostName, server.CommandHolder.PORT_NUMBER);
 	}
 
 	public TransmissionClient(String hostname, int portnumber) {
