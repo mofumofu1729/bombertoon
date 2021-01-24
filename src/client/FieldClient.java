@@ -3,14 +3,15 @@ package client;
 import server.Color;
 
 public class FieldClient {
-	int x;
-	int y;
-	boolean isExistBomb;
-	int bombCount = 2800;
-	Status status;
-	Color color;
+	public int x;
+	public int y;
+	public boolean isExistBomb;
+	public int bombCount = 2800;
+	public Status status;
+	public Color color;
 
-	FieldClient(int x, int y, boolean isExistBomb, Status status, Color color) {
+
+	public FieldClient(int x, int y, boolean isExistBomb, Status status, Color color) {
 		this.x = x;
 		this.y = y;
 		this.isExistBomb = isExistBomb;

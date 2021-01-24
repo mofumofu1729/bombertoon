@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import client.scenes.Rating;
 import client.scenes.SceneConfig;
 import client.scenes.SceneCredit;
+import client.scenes.SceneGame;
 import client.scenes.SceneMatching;
 import client.scenes.SceneMenu;
 import client.scenes.SceneResult;

@@ -146,7 +146,7 @@ public class TransmissionClient {
 		return isFinish;
 	}
 	
-	int recieveColorPair() {
+	public int recieveColorPair() {
 		return this.colorPair;
 	}
 	
