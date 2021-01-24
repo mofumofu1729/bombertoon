@@ -209,7 +209,7 @@ public class TransmissionClient {
 		score = new common.Score(playerNum);
 	}
 
-	common.Score getScore() {
+	public common.Score getScore() {
 		if (this.score == null) {
 			System.err.println("tc: warning, score is null");
 		}

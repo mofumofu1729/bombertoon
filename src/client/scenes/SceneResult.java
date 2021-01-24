@@ -1,4 +1,4 @@
-package client;
+package client.scenes;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -11,6 +11,9 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import client.ClientStarter;
+import client.State;
+import client.TransmissionClient;
 import common.Score;
 import common.Setting;
 

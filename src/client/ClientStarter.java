@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import client.scenes.SceneMenu;
+import client.scenes.SceneResult;
 import client.scenes.SceneTop;
 
 /**
