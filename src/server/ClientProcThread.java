@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-
 import server.constants.Direction;
+import server.network.TransmissionServer;
 
 //スレッド部（各クライアントに応じて）
-class ClientProcThread extends Thread {
+public class ClientProcThread extends Thread {
     private int number;//自分の番号
     private Socket incoming;
     private InputStreamReader myIsr;

@@ -38,7 +38,7 @@ public class TransmissionClient {
 
 
 	public TransmissionClient() {
-		this(hostName, server.TransmissionServer.PORT);
+		this(hostName, server.network.TransmissionServer.PORT);
 	}
 
 	public TransmissionClient(String hostname, int portnumber) {

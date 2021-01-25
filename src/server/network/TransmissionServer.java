@@ -1,4 +1,4 @@
-package server;
+package server.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,9 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-
 import common.Score;
+import server.ClientProcThread;
 import server.constants.Direction;
 import server.data.FieldServer;
 import server.data.PlayerServer;
@@ -233,14 +232,14 @@ public class TransmissionServer extends Thread {
 	}
 
 	// ClientProcThreadから呼び出す
-	void setHuman(int playerID, Direction dir) {
+    public void setHuman(int playerID, Direction dir) {
 		// TODO debug
 		System.out.println("setHuman:" + playerID + ":" + dir.name());
 
 		direction[playerID] = dir;
 	}
 
-	void setBomb(int playerID) {
+    public void setBomb(int playerID) {
 		bombs[playerID]++;
 	}
 	

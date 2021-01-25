@@ -1,10 +1,10 @@
 package server.data;
 
 import server.BattleServer;
-import server.TransmissionServer;
 import server.constants.Color;
 import server.constants.Direction;
 import server.constants.Status;
+import server.network.TransmissionServer;
 
 public class PlayerServer {
 	/*

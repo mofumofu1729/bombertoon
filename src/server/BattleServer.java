@@ -16,6 +16,7 @@ import server.constants.Status;
 import server.data.Bomb;
 import server.data.FieldServer;
 import server.data.PlayerServer;
+import server.network.TransmissionServer;
 //TODO マッチングと対戦とリザルトがくっついているからそれをバラけさせる
 //内部処理はこいつの管轄
 public class BattleServer extends BasicGameState {

@@ -1,9 +1,9 @@
 package server.data;
 
 import common.Setting;
-import server.TransmissionServer;
 import server.constants.Color;
 import server.constants.Status;
+import server.network.TransmissionServer;
 
 // サーバー上のフィールド
 public class FieldServer {

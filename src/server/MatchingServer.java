@@ -10,6 +10,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import server.constants.State;
+import server.network.TransmissionServer;
 
 public class MatchingServer extends BasicGameState {
 	private boolean enterFinished = false; // MatchingServerへの画面遷移が完了したか
