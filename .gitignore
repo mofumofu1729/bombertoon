@@ -16,7 +16,7 @@ local.properties
 .recommenders
 
 # Eclipse Core
-.project
+# .project # cloneしたときプロジェクトを見つけられるようにするため泣く泣く...
 
 # External tool builders
 .externalToolBuilders/
