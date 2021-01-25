@@ -1,4 +1,4 @@
-package server;
+package server.scenes;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
