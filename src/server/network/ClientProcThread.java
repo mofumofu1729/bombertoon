@@ -1,11 +1,10 @@
-package server;
+package server.network;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import server.constants.Direction;
-import server.network.TransmissionServer;
 
 //スレッド部（各クライアントに応じて）
 public class ClientProcThread extends Thread {

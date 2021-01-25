@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import common.Score;
-import server.ClientProcThread;
 import server.constants.Direction;
 import server.data.FieldServer;
 import server.data.PlayerServer;
