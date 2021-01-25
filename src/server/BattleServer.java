@@ -13,6 +13,7 @@ import server.constants.Color;
 import server.constants.Direction;
 import server.constants.State;
 import server.constants.Status;
+import server.data.Bomb;
 import server.data.PlayerServer;
 //TODO マッチングと対戦とリザルトがくっついているからそれをバラけさせる
 //内部処理はこいつの管轄

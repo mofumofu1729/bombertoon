@@ -3,6 +3,7 @@ package server;
 import common.Setting;
 import server.constants.Color;
 import server.constants.Status;
+import server.data.Bomb;
 
 // サーバー上のフィールド
 public class FieldServer {

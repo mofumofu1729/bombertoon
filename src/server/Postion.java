@@ -3,11 +3,10 @@ package server;
 //爆破範囲を返すメソッドを含むクラス
 //ArrayListを使うために必要
 import java.util.ArrayList;
-
 import server.constants.Status;
 
 public class Postion {
-	int x, y;// 初期位置
+    public int x, y; // 初期位置
 
 	public Postion(int x, int y) {
 		this.x = x;

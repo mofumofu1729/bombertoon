@@ -1,15 +1,18 @@
-package server;
+package server.data;
 
 import java.util.ArrayList;
+import server.BattleServer;
+import server.FieldServer;
+import server.Postion;
 import server.constants.Color;
 
 public class Bomb {
-	int playerID;
+    public int playerID;
 	private Color color;
 	public int explosionCount;
 	private int x, y;
-	int count = 3000; // 爆発までのカウント
-	int refreshCount = 2000;// 爆風が消えるまでのカウント
+    public int count = 3000; // 爆発までのカウント
+    public int refreshCount = 2000; // 爆風が消えるまでのカウント
 	public static final int bombInitial = 3000;
 	public static final int refreshInitial = 2000;
 	boolean isFireSource;
