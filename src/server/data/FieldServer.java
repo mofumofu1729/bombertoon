@@ -1,9 +1,9 @@
-package server;
+package server.data;
 
 import common.Setting;
+import server.TransmissionServer;
 import server.constants.Color;
 import server.constants.Status;
-import server.data.Bomb;
 
 // サーバー上のフィールド
 public class FieldServer {
@@ -12,12 +12,12 @@ public class FieldServer {
     public Bomb bomb;
     public boolean isExistBomb;
     public boolean isExistHuman;
-	boolean isFireSource; // 火元かどうかを判別→爆発を消す際に使用!!!!!!!新しい変数!!!!!!!!!
-	int explodeID;// 爆発させた奴のID
-					// !!!!!!!新しい変数!!!!!!!!!
-	int x, y;
-	int points;// フィールド上のマスの得点。まだ実装してない。
-	TransmissionServer ts;
+    public boolean isFireSource; // 火元かどうかを判別→爆発を消す際に使用
+    public int explodeID; // 爆発させた奴のID
+    public int x, y;
+
+    int points; // フィールド上のマスの得点。まだ実装してない。
+    TransmissionServer ts;
 
     public FieldServer(Status status, int x, int y, TransmissionServer ts, Color color) {// コンストラクタ：状態を格納
 		// TODO

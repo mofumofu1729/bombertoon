@@ -4,7 +4,6 @@ package server.data;
 //ArrayListを使うために必要
 import java.util.ArrayList;
 import server.BattleServer;
-import server.FieldServer;
 import server.constants.Status;
 
 public class Postion {

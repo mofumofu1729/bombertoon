@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 
 import common.Score;
 import server.constants.Direction;
+import server.data.FieldServer;
 import server.data.PlayerServer;
 
 public class TransmissionServer extends Thread {

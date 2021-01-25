@@ -1,7 +1,6 @@
 package server.data;
 
 import server.BattleServer;
-import server.FieldServer;
 import server.TransmissionServer;
 import server.constants.Color;
 import server.constants.Direction;
