@@ -1,8 +1,10 @@
-package server;
+package server.data;
 
 //爆破範囲を返すメソッドを含むクラス
 //ArrayListを使うために必要
 import java.util.ArrayList;
+import server.BattleServer;
+import server.FieldServer;
 import server.constants.Status;
 
 public class Postion {

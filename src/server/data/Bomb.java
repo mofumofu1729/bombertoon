@@ -3,7 +3,6 @@ package server.data;
 import java.util.ArrayList;
 import server.BattleServer;
 import server.FieldServer;
-import server.Postion;
 import server.constants.Color;
 
 public class Bomb {
