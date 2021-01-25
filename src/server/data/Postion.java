@@ -3,8 +3,8 @@ package server.data;
 //爆破範囲を返すメソッドを含むクラス
 //ArrayListを使うために必要
 import java.util.ArrayList;
-import server.BattleServer;
 import server.constants.Status;
+import server.scenes.BattleServer;
 
 public class Postion {
     public int x, y; // 初期位置

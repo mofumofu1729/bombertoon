@@ -1,4 +1,4 @@
-package server;
+package server.scenes;
 
 import java.util.Random;
 

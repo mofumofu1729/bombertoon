@@ -1,8 +1,8 @@
 package server.data;
 
 import java.util.ArrayList;
-import server.BattleServer;
 import server.constants.Color;
+import server.scenes.BattleServer;
 
 public class Bomb {
     public int playerID;
