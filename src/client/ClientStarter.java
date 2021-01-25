@@ -1,15 +1,12 @@
 package client;
 
 import java.io.IOException;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-
 import client.constants.State;
 import client.network.TransmissionClient;
-import client.scenes.Rating;
 import client.scenes.SceneConfig;
 import client.scenes.SceneCredit;
 import client.scenes.SceneGame;
@@ -35,7 +32,6 @@ public class ClientStarter extends StateBasedGame {
 		this.addState(new SceneConfig(State.CONFIG));
 		this.addState(new SceneCredit(State.CREDIT));
 		this.addState(new SceneMatching(State.MATCHING));
-		this.addState(new Rating(State.RATING));
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException {
