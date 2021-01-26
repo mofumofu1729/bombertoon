@@ -59,9 +59,9 @@ public class BattleServer extends BasicGameState {
      * ゲームループ.
      */
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int dlt) throws SlickException {
+    public void update(GameContainer gc, StateBasedGame sbg, int mSecSinceLastUpdate) throws SlickException {
 
-        gameTimer -= dlt;
+        gameTimer -= mSecSinceLastUpdate;
         ts.announceTime(gameTimer);
 
         // 制限時間が来たら終了処理
@@ -72,6 +72,58 @@ public class BattleServer extends BasicGameState {
 
         }
 
+        // プレイヤーの状態を更新
+        updatePlayersStatus(mSecSinceLastUpdate);
+
+        // フィールドを捜査して爆発をさせるところ ここから↓
+
+        for (int y = 0; y < FIELDHEIGHT; y++) {
+            for (int x = 0; x < FIELDHEIGHT; x++) {
+                if (field[y][x].isExistBomb == true) {
+                    field[y][x].bomb.count -= mSecSinceLastUpdate; // 爆弾があったら時間を減らす→爆発へのカウントダウン
+
+                    if (field[y][x].bomb.count < 0) { // 爆発
+                        // フィールドの変化はexpolosion内でClientにannounceする
+                        field[y][x].bomb.bombExplosion(field[y][x].bomb.playerID, x, y, field);
+                        field[y][x].isExistBomb = false;
+                        field[y][x].bomb.count = Bomb.bombInitial;
+                        field[y][x].isFireSource = true;
+                        player[field[y][x].bomb.playerID].bombCount--;
+                    }
+                } else if (field[y][x].isFireSource == true) { 
+                    // 火元だったらカウントを減らし、0になったら周りを鎮火させる
+                    // !!!!!!!!!!!新しい変数!!!!!!!!!
+              
+                    field[y][x].bomb.refreshCount -= mSecSinceLastUpdate; // 爆弾があったら時間を減らす→爆発へのカウントダウン
+
+                    // TODO debug
+                    // System.out.println("isFireSourse? Yes!");
+
+                    if (field[y][x].bomb.refreshCount < 0) { // 爆風が消える
+                        field[y][x].bomb.resetExplosion(field[y][x].bomb.playerID, x, y, field);
+                        // フィールドの変化はexplosion内でClientにannounceする
+                        field[y][x].status = Status.NOTHING;
+                        field[y][x].bomb.refreshCount = Bomb.refreshInitial;
+                        field[y][x].isFireSource = false;
+                    }
+                }
+
+            }
+
+        }
+
+        // 爆発をさせるところ ここまで↑
+        // System.out.println("p1の死は" + player[0].deathTimes + "p1の殺しは" +
+        // player[0].killTimes);
+        // System.out.println("p2の死は" + player[1].deathTimes + "p2の殺しは" +
+        // player[1].killTimes);
+    }
+
+    /**
+     * プレイヤーの状態を更新.
+     * @param msecSinceLastUpdate 最後の更新からのミリ秒
+     */
+    private void updatePlayersStatus(int msecSinceLastUpdate) {
         for (int i = 0; i < PLAYERNUMBER; i++) {
             // 人の動きに関する部分 ここから↓
             if (player[i].death != true) { // 生きていたら動く
@@ -121,7 +173,7 @@ public class BattleServer extends BasicGameState {
                 // 復活を司るところ ここから↓
 
             } else if (player[i].death == true) {
-                player[i].rebornCount -= dlt;
+                player[i].rebornCount -= msecSinceLastUpdate;
                 if (player[i].rebornCount < 0) {
                     player[i].revive(); // revive() 復活カウントが0になったら復活
                 }
@@ -130,49 +182,6 @@ public class BattleServer extends BasicGameState {
             // 死を司るところ ここまで↑
 
         }
-
-        // フィールドを捜査して爆発をさせるところ ここから↓
-
-        for (int y = 0; y < FIELDHEIGHT; y++) {
-            for (int x = 0; x < FIELDHEIGHT; x++) {
-                if (field[y][x].isExistBomb == true) {
-                    field[y][x].bomb.count -= dlt; // 爆弾があったら時間を減らす→爆発へのカウントダウン
-
-                    if (field[y][x].bomb.count < 0) { // 爆発
-                        // フィールドの変化はexpolosion内でClientにannounceする
-                        field[y][x].bomb.bombExplosion(field[y][x].bomb.playerID, x, y, field);
-                        field[y][x].isExistBomb = false;
-                        field[y][x].bomb.count = Bomb.bombInitial;
-                        field[y][x].isFireSource = true;
-                        player[field[y][x].bomb.playerID].bombCount--;
-                    }
-                } else if (field[y][x].isFireSource == true) { 
-                    // 火元だったらカウントを減らし、0になったら周りを鎮火させる
-                    // !!!!!!!!!!!新しい変数!!!!!!!!!
-              
-                    field[y][x].bomb.refreshCount -= dlt; // 爆弾があったら時間を減らす→爆発へのカウントダウン
-
-                    // TODO debug
-                    // System.out.println("isFireSourse? Yes!");
-
-                    if (field[y][x].bomb.refreshCount < 0) { // 爆風が消える
-                        field[y][x].bomb.resetExplosion(field[y][x].bomb.playerID, x, y, field);
-                        // フィールドの変化はexplosion内でClientにannounceする
-                        field[y][x].status = Status.NOTHING;
-                        field[y][x].bomb.refreshCount = Bomb.refreshInitial;
-                        field[y][x].isFireSource = false;
-                    }
-                }
-
-            }
-
-        }
-
-        // 爆発をさせるところ ここまで↑
-        // System.out.println("p1の死は" + player[0].deathTimes + "p1の殺しは" +
-        // player[0].killTimes);
-        // System.out.println("p2の死は" + player[1].deathTimes + "p2の殺しは" +
-        // player[1].killTimes);
     }
 
     /**
