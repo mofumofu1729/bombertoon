@@ -233,104 +233,114 @@ public class BattleServer extends BasicGameState {
         // debug
         System.out.println("enter BattleServer");
 
-        setInitialField(player, field);
+        initializeStatus(player, field);
         // enterFinished = true;
     }
 
     @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-        this.setInitialValue();
-    }
-
-
-    private void setInitialValue() {
-        this.enterFinished = false; // 画面遷移が終わったか
-        this.isSendReady = false; // 開始の合図を既に送ったか
+        this.enterFinished = false;
+        this.isSendReady = false;
         this.isSent = false;
     }
 
-    private void setInitialField(PlayerServer p[], FieldServer f[][]) {
-        // 対戦毎に必要な初期設定。ここから。
+    /**
+     * ゲーム開始時の初期化処理.
+     *
+     * @param players プレイヤーの状態
+     * @param field フィールドの状態
+     */
+    private void initializeStatus(PlayerServer[] players, FieldServer[][] field) {
+
+        // プレイヤー色の組み合わせを決定
         Random r = new Random();
-        int colorPair = r.nextInt(4); // プレイヤー色の組み合わせ
+        int colorPair = r.nextInt(4);
 
         // TODO global変数と同じ理由で，下二行staticフィールドじゃなくてローカル変数使うべきだと思われ
         Setting.ColorTeam1 = common.ColorPair.getColorPair(colorPair)[0];
         Setting.ColorTeam2 = common.ColorPair.getColorPair(colorPair)[1];
 
+        initializePlayersStatus(players);
+
+        initializeFieldStatus(field);
+
+        ts.announceReady(colorPair);jj
+    }
+
+    /**
+     * プレイヤーの状態の初期化.
+     *
+     * @param players プレイヤーの状態
+     */
+    private void initializePlayersStatus(PlayerServer[] players) {
         for (int i = 0; i < PLAYERNUMBER; i++) {
             switch (i) {
                 case 0:
-                    p[i] = new PlayerServer(0, 0, Setting.ColorTeam1, 0, Direction.DOWN, ts);
+                    players[i] =
+                        new PlayerServer(0, 0, Setting.ColorTeam1, 0,
+                                Direction.DOWN, ts);
                     break;
                 case 1:
-                    p[i] = new PlayerServer(FIELDHEIGHT - 1, 0, Setting.ColorTeam2, 1,
-                            Direction.DOWN, ts);
+                    players[i] =
+                        new PlayerServer(FIELDHEIGHT - 1, 0, Setting.ColorTeam2, 1,
+                                Direction.DOWN, ts);
                     break;
                 case 2:
-                    p[i] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT - 1, Setting.ColorTeam1, 2,
-                            Direction.DOWN, ts);
+                    players[i] =
+                        new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT - 1, Setting.ColorTeam1, 2,
+                                Direction.DOWN, ts);
                     break;
                 case 3:
-                    p[i] = new PlayerServer(0, FIELDHEIGHT - 1, Setting.ColorTeam2, 3,
-                            Direction.DOWN, ts);
+                    players[i] =
+                        new PlayerServer(0, FIELDHEIGHT - 1, Setting.ColorTeam2, 3,
+                                Direction.DOWN, ts);
                     break;
             }
 
-            // player[0] = new PlayerServer(0, 0, Color.Blue, 0,
-            // Direction.DOWN,
-            // ts); // tsが引数にあるのはannouncehumanで自分の死を伝える必要があるため
-            // player[1] = new PlayerServer(FIELDHEIGHT - 1, FIELDHEIGHT
-            // - 1,
-            // Color.Green, 1, Direction.UP, ts);
-
-            // player[0].initialX = 0;
-            // player[0].initialY = 0;
-
-            // player[1].initialX = FIELDWIDTH - 1;
-            // player[1].initialY = FIELDHEIGHT - 1;
-
         }
+    }
 
-        for (int y = 0; y < FIELDHEIGHT; y++) {// ここで障害物と無敵エリアを設定する
+    /**
+     * フィールドの状態を初期化.
+     *
+     * @param field フィールドの状態
+     */
+    private void initializeFieldStatus(FieldServer[][] field) {
+        for (int y = 0; y < FIELDHEIGHT; y++) { // ここで障害物と無敵エリアを設定する
             for (int x = 0; x < FIELDHEIGHT; x++) {
                 switch (fieldData[x + y * FIELDWIDTH]) {
                     case 0:
-                        f[y][x] = new FieldServer(Status.NOTHING, x, y, ts, Color.Transparent);
+                        field[y][x] =
+                            new FieldServer(Status.NOTHING, x, y, ts, Color.Transparent);
                         break;
                     case 1:
-
-                        f[y][x] = new FieldServer(Status.BREAKABLE1, x, y, ts, Color.Transparent);
+                        field[y][x] =
+                            new FieldServer(Status.BREAKABLE1, x, y, ts, Color.Transparent);
                         break;
                     case 2:
-                        f[y][x] = new FieldServer(Status.UNBREAKABLE, x, y, ts, Color.Transparent);
+                        field[y][x] =
+                            new FieldServer(Status.UNBREAKABLE, x, y, ts, Color.Transparent);
                         break;
-
                     case -1:
-                        f[y][x] =
-                                new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);// TODO
-                        // ちゃんと任意の色への無敵地点とする
+                        // TODO ちゃんと任意の色への無敵地点とする
+                        field[y][x] =
+                            new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);
                         break;
                     case -2:
-                        f[y][x] =
-                                new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
+                        field[y][x] =
+                            new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
                         break;
                     case -3:
-                        f[y][x] =
-                                new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);
+                        field[y][x] =
+                            new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam1);
                         break;
                     case -4:
-                        f[y][x] =
-                                new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
-
+                        field[y][x] =
+                            new FieldServer(Status.MUTEKI, x, y, ts, common.Setting.ColorTeam2);
                         break;
-
                 }
             }
         }
-
-        ts.announceReady(colorPair); // クライアントにゲーム開始の合図とプレイヤー色の組み合わせを送る
-
     }
 
     @Override
