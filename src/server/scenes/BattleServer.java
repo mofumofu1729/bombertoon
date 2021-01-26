@@ -77,6 +77,35 @@ public class BattleServer extends BasicGameState {
         updateFieldStatus(msecSinceLastUpdate);
     }
 
+    @Override
+    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+
+        fieldData = Setting.STAGE4TWO; // フィールドのパラメータ
+        ts = TransmissionServer.getInstance();
+        gameTimer = TIMELIMIT;
+
+        player = new PlayerServer[PLAYERNUMBER];
+        field = new FieldServer[FIELDHEIGHT][FIELDWIDTH];
+
+        // debug
+        System.out.println("enter BattleServer");
+
+        initializeStatus(player, field);
+        // enterFinished = true;
+    }
+
+    @Override
+    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
+        this.enterFinished = false;
+        this.isSendReady = false;
+        this.isSent = false;
+    }
+
+    @Override
+    public int getID() {
+        return state;
+    }
+
     /**
      * プレイヤーの状態を更新.
      *
@@ -220,30 +249,6 @@ public class BattleServer extends BasicGameState {
         }
     }
 
-    @Override
-    public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-
-        fieldData = Setting.STAGE4TWO; // フィールドのパラメータ
-        ts = TransmissionServer.getInstance();
-        gameTimer = TIMELIMIT;
-
-        player = new PlayerServer[PLAYERNUMBER];
-        field = new FieldServer[FIELDHEIGHT][FIELDWIDTH];
-
-        // debug
-        System.out.println("enter BattleServer");
-
-        initializeStatus(player, field);
-        // enterFinished = true;
-    }
-
-    @Override
-    public void leave(GameContainer container, StateBasedGame game) throws SlickException {
-        this.enterFinished = false;
-        this.isSendReady = false;
-        this.isSent = false;
-    }
-
     /**
      * ゲーム開始時の初期化処理.
      *
@@ -264,7 +269,7 @@ public class BattleServer extends BasicGameState {
 
         initializeFieldStatus(field);
 
-        ts.announceReady(colorPair);jj
+        ts.announceReady(colorPair);
     }
 
     /**
@@ -342,10 +347,4 @@ public class BattleServer extends BasicGameState {
             }
         }
     }
-
-    @Override
-    public int getID() {
-        return state;
-    }
-
 }
