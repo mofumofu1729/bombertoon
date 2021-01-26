@@ -79,6 +79,7 @@ public class BattleServer extends BasicGameState {
 
     /**
      * プレイヤーの状態を更新.
+     *
      * @param msecSinceLastUpdate 最後の更新からのミリ秒
      */
     private void updatePlayersStatus(int msecSinceLastUpdate) {
@@ -123,43 +124,58 @@ public class BattleServer extends BasicGameState {
 
     /**
      * フィールドの状態を更新.
+     *
      * @param msecSinceLastUpdate 最後の更新からのミリ秒
      */
     private void updateFieldStatus(int msecSinceLastUpdate) {
 
         for (int y = 0; y < FIELDHEIGHT; y++) {
             for (int x = 0; x < FIELDHEIGHT; x++) {
-                if (field[y][x].isExistBomb == true) {
-                    field[y][x].bomb.count -= msecSinceLastUpdate; // 爆弾があったら時間を減らす→爆発へのカウントダウン
-
-                    if (field[y][x].bomb.count < 0) { // 爆発
-                        // フィールドの変化はexpolosion内でClientにannounceする
-                        field[y][x].bomb.bombExplosion(field[y][x].bomb.playerID, x, y, field);
-                        field[y][x].isExistBomb = false;
-                        field[y][x].bomb.count = Bomb.bombInitial;
-                        field[y][x].isFireSource = true;
-                        player[field[y][x].bomb.playerID].bombCount--;
-                    }
-                } else if (field[y][x].isFireSource == true) { 
-                    // 火元だったらカウントを減らし、0になったら周りを鎮火させる
-                    // !!!!!!!!!!!新しい変数!!!!!!!!!
-              
-                    field[y][x].bomb.refreshCount -= msecSinceLastUpdate; // 爆弾があったら時間を減らす→爆発へのカウントダウン
-
-                    // TODO debug
-                    // System.out.println("isFireSourse? Yes!");
-
-                    if (field[y][x].bomb.refreshCount < 0) { // 爆風が消える
-                        field[y][x].bomb.resetExplosion(field[y][x].bomb.playerID, x, y, field);
-                        // フィールドの変化はexplosion内でClientにannounceする
-                        field[y][x].status = Status.NOTHING;
-                        field[y][x].bomb.refreshCount = Bomb.refreshInitial;
-                        field[y][x].isFireSource = false;
-                    }
-                }
+                updateFiledGridStatus(x, y, msecSinceLastUpdate);
 
             }
 
+        }
+    }
+
+    /**
+     * フィールドのマス目の状態を更新.
+     * 
+     * @param x マス目のx座標
+     * @param y マス目のy座標
+     * @param msecSinceLastUpdate 前回の更新からのミリ秒
+     */
+    private void updateFiledGridStatus(int x, int y, int msecSinceLastUpdate) {
+
+        if (field[y][x].isExistBomb) {
+            // 爆弾がある場合
+
+            field[y][x].bomb.count -= msecSinceLastUpdate;  // 爆発までの時間を更新
+
+            if (field[y][x].bomb.count < 0) {
+                // 爆発処理
+                // フィールドの変化はexpolosion内でClientにannounceする
+
+                field[y][x].bomb.bombExplosion(field[y][x].bomb.playerID, x, y, field);
+                field[y][x].isExistBomb = false;
+                field[y][x].bomb.count = Bomb.bombInitial;
+                field[y][x].isFireSource = true;
+                player[field[y][x].bomb.playerID].bombCount--;
+            }
+        } else if (field[y][x].isFireSource) {
+            // 爆発中の中心である場合
+
+            field[y][x].bomb.refreshCount -= msecSinceLastUpdate;
+
+            if (field[y][x].bomb.refreshCount < 0) {
+                // 爆風を消す処理
+                // フィールドの変化はexplosion内でClientにannounceする
+
+                field[y][x].bomb.resetExplosion(field[y][x].bomb.playerID, x, y, field);
+                field[y][x].status = Status.NOTHING;
+                field[y][x].bomb.refreshCount = Bomb.refreshInitial;
+                field[y][x].isFireSource = false;
+            }
         }
     }
 
@@ -204,6 +220,7 @@ public class BattleServer extends BasicGameState {
         }
     }
 
+    @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 
         fieldData = Setting.STAGE4TWO; // フィールドのパラメータ
@@ -220,6 +237,7 @@ public class BattleServer extends BasicGameState {
         // enterFinished = true;
     }
 
+    @Override
     public void leave(GameContainer container, StateBasedGame game) throws SlickException {
         this.setInitialValue();
     }
@@ -236,8 +254,6 @@ public class BattleServer extends BasicGameState {
         this.isSendReady = false; // 開始の合図を既に送ったか
         this.isSent = false;
     }
-
-
 
     private void setInitialField(PlayerServer p[], FieldServer f[][]) {
         // 対戦毎に必要な初期設定。ここから。
@@ -322,8 +338,6 @@ public class BattleServer extends BasicGameState {
         ts.announceReady(colorPair); // クライアントにゲーム開始の合図とプレイヤー色の組み合わせを送る
 
     }
-
-
 
     @Override
     public int getID() {
