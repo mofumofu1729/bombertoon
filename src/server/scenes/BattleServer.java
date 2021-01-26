@@ -52,76 +52,26 @@ public class BattleServer extends BasicGameState {
 
     @Override
     public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
-            throws SlickException {}
+            throws SlickException {
+    }
 
     /**
-     * ゲームループ!
+     * ゲームループ.
      */
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int dlt) throws SlickException {
-        // TODO debug
-        // System.out.println("test dlt:" + dlt);
-        // System.out.println("1,1の状態は" + field[1][1].isExistHuman);
-        // System.out.println(player[0].team.toString());
-        // System.out.println(player[1].team.toString());
-
-        // ここからがマッチングに必要な部分
-
-        /*
-         * if (!ts.isReady()) { return; } else if (!enterFinished) { // TODO debug //
-         * System.out.println("返された"); return; } else { // 6/21 変更 okmt if (isSendReady == false) {
-         * setInitialField(player,field); isSendReady = true; } }
-         */
-        // ここまでがマッチングに必要な部分
-
-        //// 対戦毎に必要な初期設定。ここまで。
-
-        // System.out.println("フィールドのテスト");
-        // System.out.println(field[0][0]);
-        // .out.println("終わり");
 
         gameTimer -= dlt;
-        ts.announceTime(gameTimer); // ここで残り時間を伝える
-        if (gameTimer / 1000 <= 0 && isSent == false) { // ゲーム時間が終わったら // 画面遷移
-            int team1 = 0;
-            int team2 = 0;
+        ts.announceTime(gameTimer);
 
-            for (int y = 0; y < FIELDHEIGHT; y++) {
-                for (int x = 0; x < FIELDHEIGHT; x++) {
-                    if (field[y][x].color == Setting.ColorTeam1) {
-                        team1++;
-                    } else if (field[y][x].color == Setting.ColorTeam2) {
-                        team2++;
-                    }
-                }
-            }
-            score.painted[0] = team1;
-            score.painted[1] = team2;
-
-            for (int i = 0; i < 4; i++) {
-                score.death[i] = player[i].deathTimes;
-                score.kill[i] = player[i].killTimes;
-
-            }
-            System.out.println(score.painted[0] + "点対");
-            System.out.println(score.painted[1] + "点");
-            ts.annouceScore(score);
-            ts.announceFinish();
-            isSent = true;
-
-            ts.finishGame(); // ゲーム終了
-
-            try {
-                // 同じポート番号が使えるまで少し時間がかかるので待機
-                // TODO 本当はもう少し安全な方法を使うべき
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        // 制限時間が来たら終了処理
+        if (gameTimer / 1000 <= 0 && isSent == false) {
+            finishGame();
 
             sbg.enterState(State.MATCHINGSERVER);
 
         }
+
         for (int i = 0; i < PLAYERNUMBER; i++) {
             // 人の動きに関する部分 ここから↓
             if (player[i].death != true) { // 生きていたら動く
@@ -223,6 +173,47 @@ public class BattleServer extends BasicGameState {
         // player[0].killTimes);
         // System.out.println("p2の死は" + player[1].deathTimes + "p2の殺しは" +
         // player[1].killTimes);
+    }
+
+    /**
+     * 試合終了時の処理.
+     */
+    private void finishGame() {
+        int team1 = 0;
+        int team2 = 0;
+
+        for (int y = 0; y < FIELDHEIGHT; y++) {
+            for (int x = 0; x < FIELDHEIGHT; x++) {
+                if (field[y][x].color == Setting.ColorTeam1) {
+                    team1++;
+                } else if (field[y][x].color == Setting.ColorTeam2) {
+                    team2++;
+                }
+            }
+        }
+        score.painted[0] = team1;
+        score.painted[1] = team2;
+
+        for (int i = 0; i < 4; i++) {
+            score.death[i] = player[i].deathTimes;
+            score.kill[i] = player[i].killTimes;
+
+        }
+        System.out.println(score.painted[0] + "点対");
+        System.out.println(score.painted[1] + "点");
+        ts.annouceScore(score);
+        ts.announceFinish();
+        isSent = true;
+
+        ts.finishGame(); // ゲーム終了
+
+        try {
+            // 同じポート番号が使えるまで少し時間がかかるので待機
+            // TODO 本当はもう少し安全な方法を使うべき
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
