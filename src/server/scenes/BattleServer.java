@@ -242,12 +242,6 @@ public class BattleServer extends BasicGameState {
         this.setInitialValue();
     }
 
-    public void gameResult() {
-        for (int player = 0; player < PLAYERNUMBER; player++) {
-
-        }
-
-    }
 
     private void setInitialValue() {
         this.enterFinished = false; // 画面遷移が終わったか
