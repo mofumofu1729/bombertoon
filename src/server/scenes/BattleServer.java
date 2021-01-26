@@ -59,28 +59,33 @@ public class BattleServer extends BasicGameState {
      * ゲームループ.
      */
     @Override
-    public void update(GameContainer gc, StateBasedGame sbg, int mSecSinceLastUpdate) throws SlickException {
+    public void update(GameContainer gc, StateBasedGame sbg, int msecSinceLastUpdate)
+            throws SlickException {
 
-        gameTimer -= mSecSinceLastUpdate;
+        gameTimer -= msecSinceLastUpdate;
         ts.announceTime(gameTimer);
 
-        // 制限時間が来たら終了処理
-        if (gameTimer / 1000 <= 0 && isSent == false) {
+        if (((gameTimer / 1000) <= 0) && (isSent == false)) {
             finishGame();
 
             sbg.enterState(State.MATCHINGSERVER);
 
         }
 
-        // プレイヤーの状態を更新
-        updatePlayersStatus(mSecSinceLastUpdate);
+        updatePlayersStatus(msecSinceLastUpdate);
 
-        // フィールドを捜査して爆発をさせるところ ここから↓
+        updateFieldStatus(msecSinceLastUpdate);
+    }
 
+    /**
+     * フィールドの状態を更新.
+     * @param msecSinceLastUpdate 最後の更新からのミリ秒
+     */
+    private void updateFieldStatus(int msecSinceLastUpdate) {
         for (int y = 0; y < FIELDHEIGHT; y++) {
             for (int x = 0; x < FIELDHEIGHT; x++) {
                 if (field[y][x].isExistBomb == true) {
-                    field[y][x].bomb.count -= mSecSinceLastUpdate; // 爆弾があったら時間を減らす→爆発へのカウントダウン
+                    field[y][x].bomb.count -= msecSinceLastUpdate; // 爆弾があったら時間を減らす→爆発へのカウントダウン
 
                     if (field[y][x].bomb.count < 0) { // 爆発
                         // フィールドの変化はexpolosion内でClientにannounceする
@@ -94,7 +99,7 @@ public class BattleServer extends BasicGameState {
                     // 火元だったらカウントを減らし、0になったら周りを鎮火させる
                     // !!!!!!!!!!!新しい変数!!!!!!!!!
               
-                    field[y][x].bomb.refreshCount -= mSecSinceLastUpdate; // 爆弾があったら時間を減らす→爆発へのカウントダウン
+                    field[y][x].bomb.refreshCount -= msecSinceLastUpdate; // 爆弾があったら時間を減らす→爆発へのカウントダウン
 
                     // TODO debug
                     // System.out.println("isFireSourse? Yes!");
@@ -111,12 +116,6 @@ public class BattleServer extends BasicGameState {
             }
 
         }
-
-        // 爆発をさせるところ ここまで↑
-        // System.out.println("p1の死は" + player[0].deathTimes + "p1の殺しは" +
-        // player[0].killTimes);
-        // System.out.println("p2の死は" + player[1].deathTimes + "p2の殺しは" +
-        // player[1].killTimes);
     }
 
     /**
