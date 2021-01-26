@@ -78,10 +78,55 @@ public class BattleServer extends BasicGameState {
     }
 
     /**
+     * プレイヤーの状態を更新.
+     * @param msecSinceLastUpdate 最後の更新からのミリ秒
+     */
+    private void updatePlayersStatus(int msecSinceLastUpdate) {
+
+        for (int i = 0; i < PLAYERNUMBER; i++) {
+            if (player[i].death != true) {
+                // プレイヤーが生きている時
+
+                // 移動
+                Direction dir = ts.checkHuman(i);
+                if (dir != Direction.NONE) {
+                    player[i].move(dir, field);
+                }
+
+                // 爆弾の設置
+                // TODO 本来はupdateFieldStatusの責務かも
+                if (ts.checkBomb(i)) {
+                    player[i].putBomb(field);
+                }
+
+                // 爆発の当たり判定
+                if (field[player[i].y][player[i].x].status == Status.BOMBERING) {
+                    player[i].killing(player[i],
+                                      player[field[player[i].y][player[i].x].explodeID]);
+                    player[i].death = true;
+                    player[i].rebornCount = 2000;
+
+                    field[player[i].y][player[i].x].isExistHuman = false;
+                }
+            } else {
+                // プレイヤーが死んでいる時
+
+                player[i].rebornCount -= msecSinceLastUpdate;
+
+                // 一定時間経ったら復活
+                if (player[i].rebornCount < 0) {
+                    player[i].revive();
+                }
+            }
+        }
+    }
+
+    /**
      * フィールドの状態を更新.
      * @param msecSinceLastUpdate 最後の更新からのミリ秒
      */
     private void updateFieldStatus(int msecSinceLastUpdate) {
+
         for (int y = 0; y < FIELDHEIGHT; y++) {
             for (int x = 0; x < FIELDHEIGHT; x++) {
                 if (field[y][x].isExistBomb == true) {
@@ -114,71 +159,6 @@ public class BattleServer extends BasicGameState {
                 }
 
             }
-
-        }
-    }
-
-    /**
-     * プレイヤーの状態を更新.
-     * @param msecSinceLastUpdate 最後の更新からのミリ秒
-     */
-    private void updatePlayersStatus(int msecSinceLastUpdate) {
-        for (int i = 0; i < PLAYERNUMBER; i++) {
-            // 人の動きに関する部分 ここから↓
-            if (player[i].death != true) { // 生きていたら動く
-                Direction dir;
-                if ((dir = ts.checkHuman(i)) != Direction.NONE) {
-                    // TODO debug
-                    // System.out.println("BattleServer:move:"+i+":"+dir.name());
-
-                    player[i].move(dir, field); // 入力に応じて人が動く
-
-                    // TODO debug annouceResultのテスト
-                    // System.out.println("test score");
-                    // Common.Score score = new Common.Score(4);
-                    // System.out.println("is score null?:"+score);
-                    // ts.annouceScore(score);
-
-                }
-
-                // 人の動きに関する部分 ここまで
-                if (ts.checkBomb(i)) { // checkbomb→iさんが爆弾を置いたかをチェック
-                    player[i].putBomb(field); // putbomb→人の状態を読み取りそれに応じて内部処理的に爆弾を置く
-                }
-
-                // 死を司るところ ここから↓
-                // もし当たり判定のところに人がいたら
-                if (field[player[i].y][player[i].x].status == Status.BOMBERING) {
-                    ////////////// 修正!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-                    // そいつは死ぬ
-                    player[i].killing(
-                            player[i], // 第一引数→死者
-                            player[field[player[i].y][player[i].x].explodeID]); // 第2引数→殺人者のプレイヤー
-                    
-                    ////////////// 修正// //!!!!!!!!!!!!!!!!!!!!!!
-                    
-                    System.out.println("殺人の発生");
-                    // TODO
-                    // 引数は殺した奴だと思うぞい
-                    player[i].death = true;
-                    field[player[i].y][player[i].x].isExistHuman = false; // そこに人はいない
-                    player[i].rebornCount = 2000; // 2000 カウント後に復活
-
-                }
-
-                // 死を司るところ ここまで↑
-
-                // 復活を司るところ ここから↓
-
-            } else if (player[i].death == true) {
-                player[i].rebornCount -= msecSinceLastUpdate;
-                if (player[i].rebornCount < 0) {
-                    player[i].revive(); // revive() 復活カウントが0になったら復活
-                }
-
-            }
-            // 死を司るところ ここまで↑
 
         }
     }
