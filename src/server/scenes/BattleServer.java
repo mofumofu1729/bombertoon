@@ -1,6 +1,8 @@
 package server.scenes;
 
 import java.util.Random;
+
+import common.ColorPair;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -259,7 +261,7 @@ public class BattleServer extends BasicGameState {
 
         // プレイヤー色の組み合わせを決定
         Random r = new Random();
-        int colorPair = r.nextInt(4);
+        int colorPair = r.nextInt(ColorPair.N_COLOR_PAIRS);
 
         // TODO global変数と同じ理由で，下二行staticフィールドじゃなくてローカル変数使うべきだと思われ
         Setting.ColorTeam1 = common.ColorPair.getColorPair(colorPair)[0];

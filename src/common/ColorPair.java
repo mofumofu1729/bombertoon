@@ -3,6 +3,8 @@ package common;
 import server.constants.Color;
 
 public class ColorPair {
+    public static final int N_COLOR_PAIRS = 4;  // 使用可能な色の組の数
+
     static public Color[] getColorPair(int getNumber) {
         Color[] cl = new Color[2];
         switch (getNumber) {
@@ -22,8 +24,8 @@ public class ColorPair {
                 cl[0] = Color.Red;
                 cl[1] = Color.Green;
                 break;
-
         }
+
         return cl;
     }
 }
