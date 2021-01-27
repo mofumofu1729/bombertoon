@@ -25,7 +25,7 @@ public class BattleServer extends BasicGameState {
     // フィールドサイズ
     public static final int FIELDHEIGHT = 16;
     public static final int FIELDWIDTH = 16;
-    common.Score score = new common.Score(4);
+    common.Score score = new common.Score(N_PLAYERS);
 
     private int state;
     private boolean enterFinished = false; // 画面遷移が終わったか
@@ -227,11 +227,11 @@ public class BattleServer extends BasicGameState {
         score.painted[0] = team1;
         score.painted[1] = team2;
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < N_PLAYERS; i++) {
             score.death[i] = player[i].deathTimes;
             score.kill[i] = player[i].killTimes;
-
         }
+
         System.out.println(score.painted[0] + "点対");
         System.out.println(score.painted[1] + "点");
         ts.annouceScore(score);
