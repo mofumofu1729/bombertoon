@@ -3,7 +3,7 @@ package common;
 import server.constants.Color;
 
 public class Setting {
-    public static final int P = 4;
+    public static final int N_PLAYRES = 4;
     public static int[] STAGE4ONE = FieldData.fieldDate1;
     public static int[] STAGE4TWO = FieldData.fieldDate1;
     public static Color ColorTeam1 = Color.Blue;

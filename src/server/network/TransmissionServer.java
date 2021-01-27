@@ -16,7 +16,7 @@ public class TransmissionServer extends Thread {
 
     public static final int PORT = 20000;
     public static final int MAX_BOMB = 3;
-    public static final int MAX_PLAYER = common.Setting.P;
+    public static final int MAX_PLAYER = common.Setting.N_PLAYRES;
 
     private Socket[] incoming; // 受付用のソケット
     private InputStreamReader[] isr; // 入力ストリーム用の配列
