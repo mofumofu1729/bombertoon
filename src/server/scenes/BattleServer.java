@@ -22,7 +22,7 @@ import server.network.TransmissionServer;
 // TODO マッチングと対戦とリザルトがくっついているからそれをバラけさせる
 // 内部処理はこいつの管轄
 public class BattleServer extends BasicGameState {
-    public static final int N_PLAYERS = common.Setting.N_PLAYRES;  // 参加プレイヤー数
+    public static final int N_PLAYERS = common.Setting.N_PLAYERS;  // 参加プレイヤー数
     public static final int TIMELIMIT = 20000; // 制限時間
     // フィールドサイズ
     public static final int FIELDHEIGHT = 16;

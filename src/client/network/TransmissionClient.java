@@ -16,7 +16,7 @@ import common.Setting;
 
 public class TransmissionClient {
     public static String hostName = "localhost"; // TODO Config.update()から参照されている staticでやるのはあまり良くない
-    public static final int MAX_PLAYER = Setting.N_PLAYRES; // プレイヤーの人数
+    public static final int MAX_PLAYER = Setting.N_PLAYERS; // プレイヤーの人数
 
     private PrintWriter out; // 出力用のライター
 
