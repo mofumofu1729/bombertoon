@@ -45,18 +45,18 @@ public class SceneResult extends BasicGameState {
     }
 
     @Override
-    public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
+    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics)
             throws SlickException {
         re.draw(0, 0);
         uf.addAsciiGlyphs();
         uf.getEffects().add(new ColorEffect());
         uf.loadGlyphs();
 
-        arg2.setFont(uf);
+        graphics.setFont(uf);
         // arg2.drawString("Shit example", 100, 100);
 
-        arg2.drawString(Integer.toString(score.painted[0]), 165, 110);
-        arg2.drawString(Integer.toString(score.painted[1]), 545, 110);
+        graphics.drawString(Integer.toString(score.painted[0]), 165, 110);
+        graphics.drawString(Integer.toString(score.painted[1]), 545, 110);
         team1.draw(70, 290);
         team2.draw(430, 290);
         bar1.draw(38, 360);
@@ -69,27 +69,27 @@ public class SceneResult extends BasicGameState {
         uf2.addAsciiGlyphs();
         uf2.getEffects().add(new ColorEffect());
         uf2.loadGlyphs();
-        arg2.setFont(uf2);
+        graphics.setFont(uf2);
 
-        arg2.drawString("1", 70, 390); // 385 425
-        arg2.drawString("3", 70, 470);
-        arg2.drawString("2", 460, 385);
-        arg2.drawString("4", 460, 465);
+        graphics.drawString("1", 70, 390); // 385 425
+        graphics.drawString("3", 70, 470);
+        graphics.drawString("2", 460, 385);
+        graphics.drawString("4", 460, 465);
 
         uf3.addAsciiGlyphs();
         uf3.getEffects().add(new ColorEffect());
         uf3.loadGlyphs();
-        arg2.setFont(uf3);
+        graphics.setFont(uf3);
 
-        arg2.drawString(Integer.toString(score.kill[0]), 330, 390); // 385 425
-        arg2.drawString(Integer.toString(score.death[0]), 330, 425);
-        arg2.drawString(Integer.toString(score.kill[2]), 330, 470); // 385 425
-        arg2.drawString(Integer.toString(score.death[2]), 330, 505);
+        graphics.drawString(Integer.toString(score.kill[0]), 330, 390); // 385 425
+        graphics.drawString(Integer.toString(score.death[0]), 330, 425);
+        graphics.drawString(Integer.toString(score.kill[2]), 330, 470); // 385 425
+        graphics.drawString(Integer.toString(score.death[2]), 330, 505);
 
-        arg2.drawString(Integer.toString(score.kill[1]), 720, 390);
-        arg2.drawString(Integer.toString(score.death[1]), 720, 425);
-        arg2.drawString(Integer.toString(score.kill[3]), 720, 470);
-        arg2.drawString(Integer.toString(score.death[3]), 720, 505);
+        graphics.drawString(Integer.toString(score.kill[1]), 720, 390);
+        graphics.drawString(Integer.toString(score.death[1]), 720, 425);
+        graphics.drawString(Integer.toString(score.kill[3]), 720, 470);
+        graphics.drawString(Integer.toString(score.death[3]), 720, 505);
     }
 
     @Override
