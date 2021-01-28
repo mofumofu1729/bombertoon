@@ -105,10 +105,11 @@ public class SceneResult extends BasicGameState {
 
     @Override
     public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
+        // TODO 恐らく試合画面でのキー入力のバッファが残っているため
+        // 試合終了後すぐにTOP画面に遷移するバグがあり
         if (arg0.getInput().isKeyPressed(Input.KEY_ENTER)) {
             arg1.enterState(State.TOP);
         }
-
     }
 
     @Override
