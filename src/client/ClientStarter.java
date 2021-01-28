@@ -43,7 +43,6 @@ public class ClientStarter extends StateBasedGame {
         this.getState(State.CONFIG).init(gc, this);
         this.getState(State.CREDIT).init(gc, this);
         this.getState(State.MATCHING).init(gc, this);
-        this.getState(State.RATING).init(gc, this);
         this.getState(State.CONFIG).init(gc, this);
 
         // this.enterState(State.GAMECLIENT);
