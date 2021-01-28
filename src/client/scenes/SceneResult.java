@@ -17,6 +17,11 @@ import common.Score;
 import common.Setting;
 
 public class SceneResult extends BasicGameState {
+    private static final int KILL_COUNT_DISPLAY_POSITIONS[][] =
+            {{330, 390}, {720, 390}, {330, 470}, {720, 470}};
+    private static final int DEATH_COUNT_DISPLAY_POSITIONS[][] =
+            {{330, 425}, {720, 425}, {330, 505}, {720, 505}};
+
     private int state;
     Image re;
     UnicodeFont uf;
@@ -44,9 +49,14 @@ public class SceneResult extends BasicGameState {
         bgm = new Music("res/client/sound/BGM/result.ogg");
     }
 
+    /**
+     * 試合結果の画面を描画.
+     */
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics)
-            throws SlickException {
+    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame,
+            Graphics graphics) throws SlickException {
+        // TODO 現状は四人対戦を前提とした画面配置
+
         re.draw(0, 0);
         uf.addAsciiGlyphs();
         uf.getEffects().add(new ColorEffect());
@@ -81,15 +91,17 @@ public class SceneResult extends BasicGameState {
         uf3.loadGlyphs();
         graphics.setFont(uf3);
 
-        graphics.drawString(Integer.toString(score.kill[0]), 330, 390); // 385 425
-        graphics.drawString(Integer.toString(score.death[0]), 330, 425);
-        graphics.drawString(Integer.toString(score.kill[2]), 330, 470); // 385 425
-        graphics.drawString(Integer.toString(score.death[2]), 330, 505);
-
-        graphics.drawString(Integer.toString(score.kill[1]), 720, 390);
-        graphics.drawString(Integer.toString(score.death[1]), 720, 425);
-        graphics.drawString(Integer.toString(score.kill[3]), 720, 470);
-        graphics.drawString(Integer.toString(score.death[3]), 720, 505);
+        // 各プレイヤーのキル数・デス数の表示
+        for (int i = 0; i < Setting.N_PLAYERS; i++) {
+            graphics.drawString(
+                    Integer.toString(score.kill[i]),
+                    KILL_COUNT_DISPLAY_POSITIONS[i][0],
+                    KILL_COUNT_DISPLAY_POSITIONS[i][1]);
+            graphics.drawString(
+                    Integer.toString(score.kill[i]),
+                    DEATH_COUNT_DISPLAY_POSITIONS[i][0],
+                    DEATH_COUNT_DISPLAY_POSITIONS[i][1]);
+        }
     }
 
     @Override
