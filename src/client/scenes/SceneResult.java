@@ -105,7 +105,6 @@ public class SceneResult extends BasicGameState {
 
     @Override
     public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-        // TODO 自動生成さtc.getScore().れたメソッド・スタブ
         if (arg0.getInput().isKeyPressed(Input.KEY_ENTER)) {
             arg1.enterState(State.TOP);
         }

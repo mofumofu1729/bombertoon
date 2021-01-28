@@ -10,8 +10,18 @@ public class Setting {
     public static Color ColorTeam1 = Color.Blue;
     public static Color ColorTeam2 = Color.Blue;
 
+    private static int teamColorsPairNumber;
+
     public static void setTeamColor(Color[] cl) {
         ColorTeam1 = cl[0];
         ColorTeam2 = cl[1];
+    }
+
+    public static void setTeamColorsPairNumber(int teamColorsPairNumber) {
+        Setting.teamColorsPairNumber = teamColorsPairNumber;
+    }
+
+    public static int getTeamColorsPairNumber() {
+        return Setting.teamColorsPairNumber;
     }
 }
