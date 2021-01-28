@@ -63,7 +63,6 @@ public class SceneResult extends BasicGameState {
         uf.loadGlyphs();
 
         graphics.setFont(uf);
-        // arg2.drawString("Shit example", 100, 100);
 
         graphics.drawString(Integer.toString(score.painted[0]), 165, 110);
         graphics.drawString(Integer.toString(score.painted[1]), 545, 110);
