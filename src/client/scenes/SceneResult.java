@@ -53,7 +53,7 @@ public class SceneResult extends BasicGameState {
      * 試合結果の画面を描画.
      */
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame,
+    public void render(GameContainer container, StateBasedGame game,
             Graphics graphics) throws SlickException {
         // TODO 現状は四人対戦を前提とした画面配置
 
@@ -104,11 +104,12 @@ public class SceneResult extends BasicGameState {
     }
 
     @Override
-    public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
+    public void update(GameContainer container, StateBasedGame game, int delta)
+            throws SlickException {
         // TODO 恐らく試合画面でのキー入力のバッファが残っているため
         // 試合終了後すぐにTOP画面に遷移するバグがあり
-        if (arg0.getInput().isKeyPressed(Input.KEY_ENTER)) {
-            arg1.enterState(State.TOP);
+        if (container.getInput().isKeyPressed(Input.KEY_ENTER)) {
+            game.enterState(State.TOP);
         }
     }
 
