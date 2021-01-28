@@ -24,4 +24,9 @@ public class Setting {
     public static int getTeamColorsPairNumber() {
         return Setting.teamColorsPairNumber;
     }
+
+    public static Color[] getCurrentTeamColorPairs() {
+        // FIXME teamColorsPairnumberが初期化されていないとNullPointer例外で落ちるはず
+        return TeamColorsPair.findTeamColorsPair(Setting.teamColorsPairNumber);
+    }
 }
