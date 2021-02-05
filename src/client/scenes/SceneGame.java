@@ -160,13 +160,7 @@ public class SceneGame extends BasicGameState {
 
         drawObjects();
 
-        uf.addAsciiGlyphs();
-        uf.getEffects().add(new ColorEffect());
-        uf.loadGlyphs();
-        gr.setFont(uf);
-        // 障害物を描画 ここまで↑
-        gr.drawString(Integer.toString(gameSetTimer / 1000), 400, 30);
-
+        drawTimer(gr);
     }
 
     /**
@@ -266,6 +260,19 @@ public class SceneGame extends BasicGameState {
                 }
             }
         }
+    }
+
+    /**
+     * 残り時間のタイマーを表示.
+     * @param gr Slick2Dのグラフィックスクラス
+     * @throws SlickException
+     */
+    private void drawTimer(Graphics gr) throws SlickException {
+        uf.addAsciiGlyphs();
+        uf.getEffects().add(new ColorEffect());
+        uf.loadGlyphs();
+        gr.setFont(uf);
+        gr.drawString(Integer.toString(gameSetTimer / 1000), 400, 30);
     }
 
     @Override
