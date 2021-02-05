@@ -156,25 +156,7 @@ public class SceneGame extends BasicGameState {
 
         drawMutekiArea();
 
-        // 色を塗る ここから↓
-        for (int y = 0; y < FIELDHEIGHT; y++) {
-            for (int x = 0; x < FIELDWIDTH; x++) {
-                // 座標を取ってくる
-                float dispX = xyToDispX(x, y);
-                float dispY = xyToDispY(x, y);
-                if ((fc[y][x].status != Status.MUTEKI)) { // 無敵の場所にも色がある→しかしそこはインクはいらない
-                    if (fc[y][x].color == Color.Transparent) {
-                        // TODO debug 6/21 okmt: log見るために一度コメントアウトしたよ
-                    } else if (fc[y][x].color == common.Setting.ColorTeam1) {
-                        ink[0].draw(dispX, dispY);
-                    } else if (fc[y][x].color == common.Setting.ColorTeam2) {
-                        ink[1].draw(dispX, dispY);
-                    }
-                }
-            }
-        }
-
-        // 色を塗る ここまで↑
+        drawInk();
 
         // 障害物を描画 ここから↓
         for (int y = 0; y < FIELDHEIGHT; y++) {
@@ -252,6 +234,28 @@ public class SceneGame extends BasicGameState {
                     mutekiArea[i].draw(dispX, dispY);
                 } else {
                     stage.draw(dispX, dispY);
+                }
+            }
+        }
+    }
+
+    /**
+     * インクを描画.
+     */
+    private void drawInk() {
+        for (int y = 0; y < FIELDHEIGHT; y++) {
+            for (int x = 0; x < FIELDWIDTH; x++) {
+                // 座標を取ってくる
+                float dispX = xyToDispX(x, y);
+                float dispY = xyToDispY(x, y);
+                if ((fc[y][x].status != Status.MUTEKI)) { // 無敵の場所にも色がある→しかしそこはインクはいらない
+                    if (fc[y][x].color == Color.Transparent) {
+                        // TODO debug 6/21 okmt: log見るために一度コメントアウトしたよ
+                    } else if (fc[y][x].color == Setting.ColorTeam1) {
+                        ink[0].draw(dispX, dispY);
+                    } else if (fc[y][x].color == Setting.ColorTeam2) {
+                        ink[1].draw(dispX, dispY);
+                    }
                 }
             }
         }
