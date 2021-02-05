@@ -158,56 +158,8 @@ public class SceneGame extends BasicGameState {
 
         drawInk();
 
-        // 障害物を描画 ここから↓
-        for (int y = 0; y < FIELDHEIGHT; y++) {
-            for (int x = 0; x < FIELDWIDTH; x++) {
-                // 座標を取ってくる
-                float dispX = xyToDispX(x, y);
-                float dispY = xyToDispY(x, y);
-                switch (fc[y][x].status) {
-                    case UNBREAKABLE:
-                        unbreakable.draw(dispX - OFFSET_X_OBJECT, dispY - OFFSET_Y_OBJECT);
-                        break;
-                    case BREAKABLE1:
-                        breakable.draw(dispX - OFFSET_X_OBJECT, dispY - OFFSET_Y_OBJECT);
-                        break;
-                    default:
-                }
-                dispX = xyToDispX(x, y);
-                dispY = xyToDispY(x, y) - OFFSET_Y;
+        drawObjects();
 
-                // 爆弾を配置
-                if (fc[y][x].isExistBomb == true) {
-                    bomb.draw(dispX, dispY - OFFSET_Y_BOMB);
-                }
-                if (fc[y][x].status == Status.BOMBERING) {
-                    explosion.draw(dispX - OFFSET_X_EXPLOSION, dispY - OFFSET_Y_EXPLOSION);
-                }
-
-                for (int i = 0; i < PLAYERNUMBER; i++) { // キャラクターの表示向きにおうじて画像を変える
-                    if (!pc[i].isDeath && pc[i].x == x && pc[i].y == y) {
-                        dispX = xyToDispX(pc[i].x, pc[i].y);
-                        dispY = xyToDispY(pc[i].x, pc[i].y) - OFFSET_Y; // 20:offset
-                        switch (pc[i].dir) {
-                            case UP:
-                                upPlayer[i].draw(dispX, dispY);
-                                break;
-                            case DOWN:
-                                downPlayer[i].draw(dispX, dispY);
-                                break;
-                            case RIGHT:
-                                rightPlayer[i].draw(dispX, dispY);
-                                break;
-                            case LEFT:
-                                leftPlayer[i].draw(dispX, dispY);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-        }
         uf.addAsciiGlyphs();
         uf.getEffects().add(new ColorEffect());
         uf.loadGlyphs();
@@ -255,6 +207,61 @@ public class SceneGame extends BasicGameState {
                         ink[0].draw(dispX, dispY);
                     } else if (fc[y][x].color == Setting.ColorTeam2) {
                         ink[1].draw(dispX, dispY);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 障害物などを描画.
+     */
+    private void drawObjects() {
+        for (int y = 0; y < FIELDHEIGHT; y++) {
+            for (int x = 0; x < FIELDWIDTH; x++) {
+                // 座標を取ってくる
+                float dispX = xyToDispX(x, y);
+                float dispY = xyToDispY(x, y);
+                switch (fc[y][x].status) {
+                    case UNBREAKABLE:
+                        unbreakable.draw(dispX - OFFSET_X_OBJECT, dispY - OFFSET_Y_OBJECT);
+                        break;
+                    case BREAKABLE1:
+                        breakable.draw(dispX - OFFSET_X_OBJECT, dispY - OFFSET_Y_OBJECT);
+                        break;
+                    default:
+                }
+                dispX = xyToDispX(x, y);
+                dispY = xyToDispY(x, y) - OFFSET_Y;
+
+                // 爆弾を配置
+                if (fc[y][x].isExistBomb == true) {
+                    bomb.draw(dispX, dispY - OFFSET_Y_BOMB);
+                }
+                if (fc[y][x].status == Status.BOMBERING) {
+                    explosion.draw(dispX - OFFSET_X_EXPLOSION, dispY - OFFSET_Y_EXPLOSION);
+                }
+
+                for (int i = 0; i < PLAYERNUMBER; i++) { // キャラクターの表示向きにおうじて画像を変える
+                    if (!pc[i].isDeath && pc[i].x == x && pc[i].y == y) {
+                        dispX = xyToDispX(pc[i].x, pc[i].y);
+                        dispY = xyToDispY(pc[i].x, pc[i].y) - OFFSET_Y; // 20:offset
+                        switch (pc[i].dir) {
+                            case UP:
+                                upPlayer[i].draw(dispX, dispY);
+                                break;
+                            case DOWN:
+                                downPlayer[i].draw(dispX, dispY);
+                                break;
+                            case RIGHT:
+                                rightPlayer[i].draw(dispX, dispY);
+                                break;
+                            case LEFT:
+                                leftPlayer[i].draw(dispX, dispY);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
